@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { AnimatedInput, AnimatedButton } from './MicroInteractions';
+import { Spinner } from './LoadingStates';
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState('');
@@ -35,41 +37,42 @@ export default function NewsletterForm() {
 
   return (
     <div className="w-full">
-      <h3 className="text-xl font-serif font-semibold mb-4">Newsletter</h3>
+      <motion.h3 
+        className="text-xl font-serif font-semibold mb-4"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        Newsletter
+      </motion.h3>
       
       <form onSubmit={handleSubmit} className="space-y-3">
-        <div>
-          <label htmlFor="email" className="sr-only">Email address</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Your email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={status === 'loading' || status === 'success'}
-            className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500 transition-colors duration-200"
-          />
-        </div>
+        <AnimatedInput
+          id="email"
+          type="email"
+          label="Email address"
+          placeholder="Your email address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={status === 'loading' || status === 'success'}
+          error={status === 'error' ? message : ''}
+        />
         
-        <motion.button
+        <AnimatedButton
           type="submit"
           disabled={status === 'loading' || status === 'success'}
-          className="w-full px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors duration-200 disabled:opacity-70"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          variant="primary"
+          fullWidth
+          icon={status === 'loading' ? <Spinner size="sm" color="white" /> : undefined}
         >
           {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
-        </motion.button>
+        </AnimatedButton>
         
-        {message && (
+        {status === 'success' && message && (
           <motion.p
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`text-sm ${
-              status === 'error' 
-                ? 'text-red-500 dark:text-red-400' 
-                : 'text-green-600 dark:text-green-400'
-            }`}
+            className="text-sm text-green-600 dark:text-green-400"
           >
             {message}
           </motion.p>

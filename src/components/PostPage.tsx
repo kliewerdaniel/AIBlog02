@@ -5,6 +5,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import MotionWrapper, { MotionContainer, MotionItem } from '@/components/MotionWrapper';
+import { FadeInOnScroll, ParallaxImage, StickyElement, RevealOnScroll } from './ScrollAnimations';
+import { StaggerContainer, StaggerItem } from './PageTransition';
+import { AnimatedButton, AnimatedLink, AnimatedCard } from './MicroInteractions';
+import { SkeletonBlogPost, SkeletonImage, ProgressBar } from './LoadingStates';
 
 export interface Author {
   name: string;
@@ -108,29 +112,35 @@ export default function PostPage({ post }: PostProps) {
   return (
     <div className="space-y-12 relative">
       {/* Reading progress indicator */}
-      <motion.div 
-        className="fixed top-0 left-0 right-0 h-1 bg-gray-800 dark:bg-gray-200 z-50 origin-left"
-        style={{ scaleX: scrollYProgress }}
+      <ProgressBar 
+        progress={scrollYProgress.get() * 100} 
+        height="2px"
+        color="primary"
+        className="fixed top-0 left-0 right-0 z-50"
       />
       
       {/* Back to home link */}
-      <MotionWrapper animation="fade-in">
-        <Link 
+      <FadeInOnScroll>
+        <AnimatedLink 
           href="/" 
-          className="inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50 transition-colors duration-200"
+          className="inline-flex items-center text-gray-600 dark:text-gray-400"
+          underlineEffect="slide"
         >
-          <svg 
+          <motion.svg 
             xmlns="http://www.w3.org/2000/svg" 
             className="h-4 w-4 mr-2" 
             fill="none" 
             viewBox="0 0 24 24" 
             stroke="currentColor"
+            initial={{ x: 0 }}
+            whileHover={{ x: -3 }}
+            transition={{ duration: 0.2 }}
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
+          </motion.svg>
           Back to Home
-        </Link>
-      </MotionWrapper>
+        </AnimatedLink>
+      </FadeInOnScroll>
       
       <article>
         {/* Hero section with title, author, date, reading time */}
@@ -138,70 +148,84 @@ export default function PostPage({ post }: PostProps) {
           className="relative mb-16"
           style={{ opacity, scale }}
         >
-          <MotionWrapper animation="slide-up" className="border-b border-subtle pb-8 mb-12">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-tight mb-6">{post.title}</h1>
+          <FadeInOnScroll className="border-b border-subtle pb-8 mb-12">
+            <RevealOnScroll>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-tight mb-6">{post.title}</h1>
+            </RevealOnScroll>
             
             <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8 mt-6">
               {/* Author info with avatar */}
-              <div className="flex items-center">
-                <div className="relative w-10 h-10 rounded-full overflow-hidden mr-3">
-                  {/* Use fallback for avatar if image is missing */}
-                  <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs">
-                    {post.author.name.charAt(0)}
+              <RevealOnScroll>
+                <div className="flex items-center">
+                  <motion.div 
+                    className="relative w-10 h-10 rounded-full overflow-hidden mr-3"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {/* Use fallback for avatar if image is missing */}
+                    <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs">
+                      {post.author.name.charAt(0)}
+                    </div>
+                  </motion.div>
+                  <div>
+                    <p className="font-medium text-gray-800 dark:text-gray-200">{post.author.name}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{post.author.bio}</p>
                   </div>
                 </div>
-                <div>
-                  <p className="font-medium text-gray-800 dark:text-gray-200">{post.author.name}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{post.author.bio}</p>
-                </div>
-              </div>
+              </RevealOnScroll>
               
               {/* Publication info */}
-              <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                <time dateTime={post.date} className="flex items-center">
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  {post.date}
-                </time>
-                <span className="flex items-center">
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  {post.readingTime}
-                </span>
-              </div>
+              <RevealOnScroll>
+                <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+                  <time dateTime={post.date} className="flex items-center">
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {post.date}
+                  </time>
+                  <span className="flex items-center">
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {post.readingTime}
+                  </span>
+                </div>
+              </RevealOnScroll>
             </div>
-          </MotionWrapper>
+          </FadeInOnScroll>
           
           {/* Featured image with caption */}
-          <MotionWrapper animation="fade-in" delay={0.2} className="mb-12">
+          <FadeInOnScroll className="mb-12" delay={0.2}>
             <div className="relative aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800">
-              {/* Fallback for featured image */}
-              <div className="w-full h-full flex flex-col items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span>{post.featuredImage.alt}</span>
-              </div>
+              {/* Parallax effect for featured image */}
+              <ParallaxImage 
+                src={post.featuredImage.src || '/images/placeholder.jpg'} 
+                alt={post.featuredImage.alt}
+                strength={50}
+              />
             </div>
             {post.featuredImage.caption && (
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 italic text-center">
+              <motion.p 
+                className="text-sm text-gray-500 dark:text-gray-400 mt-2 italic text-center"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
                 {post.featuredImage.caption}
-              </p>
+              </motion.p>
             )}
-          </MotionWrapper>
+          </FadeInOnScroll>
         </motion.div>
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Table of contents (desktop) */}
           <aside className="hidden lg:block lg:col-span-3 relative">
-            <div className="sticky top-8">
-              <MotionWrapper animation="fade-in" delay={0.3}>
+            <StickyElement topOffset="8rem">
+              <FadeInOnScroll delay={0.3}>
                 <h4 className="text-lg font-serif font-semibold mb-4 pb-2 border-b border-subtle">Table of Contents</h4>
                 <nav className="space-y-2">
                   {tableOfContents.map((item) => (
-                    <a
+                    <motion.a
                       key={item.id}
                       href={`#${item.id}`}
                       className={`block text-sm transition-colors duration-200 ${
@@ -209,13 +233,15 @@ export default function PostPage({ post }: PostProps) {
                           ? 'text-gray-900 dark:text-gray-50 font-medium'
                           : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                       } ${item.level === 3 ? 'pl-4' : ''}`}
+                      whileHover={{ x: activeSection === item.id ? 0 : 3 }}
+                      transition={{ duration: 0.2 }}
                     >
                       {item.text}
-                    </a>
+                    </motion.a>
                   ))}
                 </nav>
-              </MotionWrapper>
-            </div>
+              </FadeInOnScroll>
+            </StickyElement>
           </aside>
           
           {/* Main content */}
@@ -411,81 +437,88 @@ export default function PostPage({ post }: PostProps) {
           </div>
         </div>
         
-        {/* Next/Previous post navigation */}
-        <MotionWrapper animation="fade-in" delay={0.4} className="mt-16 pt-8 border-t border-subtle">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {post.previousPost && (
-              <div>
-                <span className="text-sm text-gray-500 dark:text-gray-400">Previous Article</span>
-                <motion.div whileHover={{ x: -5 }} transition={{ type: "spring", stiffness: 300 }}>
-                  <Link 
-                    href={`/posts/${post.previousPost.id}`} 
-                    className="block mt-2 text-xl font-serif font-semibold hover:text-gray-900 dark:hover:text-gray-50"
-                  >
-                    {post.previousPost.title}
-                  </Link>
-                </motion.div>
+            {/* Next/Previous post navigation */}
+            <FadeInOnScroll delay={0.4} className="mt-16 pt-8 border-t border-subtle">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {post.previousPost && (
+                  <RevealOnScroll>
+                    <div>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">Previous Article</span>
+                      <AnimatedLink 
+                        href={`/posts/${post.previousPost.id}`}
+                        className="block mt-2 text-xl font-serif font-semibold"
+                        underlineEffect="slide"
+                      >
+                        {post.previousPost.title}
+                      </AnimatedLink>
+                    </div>
+                  </RevealOnScroll>
+                )}
+                
+                {post.nextPost && (
+                  <RevealOnScroll>
+                    <div className={`${!post.previousPost ? 'md:col-start-2' : ''}`}>
+                      <span className="text-sm text-gray-500 dark:text-gray-400 md:text-right block">Next Article</span>
+                      <AnimatedLink 
+                        href={`/posts/${post.nextPost.id}`}
+                        className="block mt-2 text-xl font-serif font-semibold md:text-right"
+                        underlineEffect="slide"
+                      >
+                        {post.nextPost.title}
+                      </AnimatedLink>
+                    </div>
+                  </RevealOnScroll>
+                )}
               </div>
-            )}
-            
-            {post.nextPost && (
-              <div className={`${!post.previousPost ? 'md:col-start-2' : ''}`}>
-                <span className="text-sm text-gray-500 dark:text-gray-400 md:text-right block">Next Article</span>
-                <motion.div whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300 }}>
-                  <Link 
-                    href={`/posts/${post.nextPost.id}`} 
-                    className="block mt-2 text-xl font-serif font-semibold hover:text-gray-900 dark:hover:text-gray-50 md:text-right"
-                  >
-                    {post.nextPost.title}
-                  </Link>
-                </motion.div>
-              </div>
-            )}
-          </div>
-        </MotionWrapper>
+            </FadeInOnScroll>
         
-        {/* Related posts */}
-        <MotionWrapper animation="fade-in" delay={0.5} className="mt-16 pt-8 border-t border-subtle">
-          <h3 className="text-2xl font-serif font-semibold mb-8">Related Articles</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {post.relatedPosts.map((relatedPost) => (
-              <motion.div 
-                key={relatedPost.id}
-                whileHover={{ y: -5 }}
-                className="group"
-              >
-                <Link href={`/posts/${relatedPost.id}`} className="block">
-                  <div className="aspect-video bg-gray-100 dark:bg-gray-800 mb-4 overflow-hidden">
-                    {relatedPost.image ? (
-                      <div className="relative w-full h-full">
-                        {/* Fallback for related post images */}
-                        <div className="w-full h-full flex flex-col items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                          <span className="text-xs">{relatedPost.title}</span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-600">
-                        No Image
-                      </div>
-                    )}
-                  </div>
-                  <h4 className="text-lg font-serif font-semibold mb-2 group-hover:text-gray-900 dark:group-hover:text-gray-50 transition-colors">
-                    {relatedPost.title}
-                  </h4>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                    {relatedPost.date}
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-300 line-clamp-2">
-                    {relatedPost.excerpt}
-                  </p>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </MotionWrapper>
+            {/* Related posts */}
+            <FadeInOnScroll delay={0.5} className="mt-16 pt-8 border-t border-subtle">
+              <RevealOnScroll>
+                <h3 className="text-2xl font-serif font-semibold mb-8">Related Articles</h3>
+              </RevealOnScroll>
+              <StaggerContainer delay={0.1} staggerDelay={0.15}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {post.relatedPosts.map((relatedPost, index) => (
+                    <StaggerItem key={relatedPost.id} index={index}>
+                      <AnimatedCard hoverEffect="lift">
+                        <Link href={`/posts/${relatedPost.id}`} className="block">
+                          <div className="aspect-video bg-gray-100 dark:bg-gray-800 mb-4 overflow-hidden">
+                            {relatedPost.image ? (
+                              <motion.div 
+                                className="relative w-full h-full"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ duration: 0.4 }}
+                              >
+                                <Image
+                                  src={relatedPost.image}
+                                  alt={relatedPost.title}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </motion.div>
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-600">
+                                No Image
+                              </div>
+                            )}
+                          </div>
+                          <h4 className="text-lg font-serif font-semibold mb-2 transition-colors">
+                            {relatedPost.title}
+                          </h4>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                            {relatedPost.date}
+                          </p>
+                          <p className="text-gray-600 dark:text-gray-300 line-clamp-2">
+                            {relatedPost.excerpt}
+                          </p>
+                        </Link>
+                      </AnimatedCard>
+                    </StaggerItem>
+                  ))}
+                </div>
+              </StaggerContainer>
+            </FadeInOnScroll>
       </article>
     </div>
   );

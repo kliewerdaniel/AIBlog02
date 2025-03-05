@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import { AnimatedCard } from './MicroInteractions';
+import { SkeletonImage } from './LoadingStates';
 
 interface BlogPostCardProps {
   id: number;
@@ -27,71 +29,85 @@ export default function BlogPostCard({
   isFeatured = false,
 }: BlogPostCardProps) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <motion.article
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`group relative overflow-hidden rounded-lg bg-white dark:bg-gray-800 ${
-        isFeatured ? 'ring-2 ring-gray-900 dark:ring-gray-100' : 'border border-gray-200 dark:border-gray-700'
-      }`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Featured badge */}
-      {isFeatured && (
-        <div className="absolute top-4 right-4 z-10 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs font-medium uppercase tracking-wider px-2 py-1 rounded">
-          Featured
-        </div>
-      )}
+      <AnimatedCard 
+        hoverEffect="lift"
+        className={`relative overflow-hidden ${
+          isFeatured ? 'ring-2 ring-gray-900 dark:ring-gray-100' : ''
+        }`}
+      >
+        {/* Featured badge */}
+        {isFeatured && (
+          <motion.div 
+            className="absolute top-4 right-4 z-10 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs font-medium uppercase tracking-wider px-2 py-1 rounded"
+            initial={{ opacity: 0, scale: 0.8, y: -10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.3 }}
+          >
+            Featured
+          </motion.div>
+        )}
 
-      <Link href={`/posts/${id}`} className="block">
-        {/* Card content wrapper with hover effects */}
-        <motion.div
-          whileHover={{ 
-            scale: 1.02,
-            transition: { duration: 0.2 }
-          }}
-          className="h-full transition-shadow duration-300 group-hover:shadow-lg"
-        >
+        <Link href={`/posts/${id}`} className="block">
           {/* Image container with fixed aspect ratio */}
           <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100 dark:bg-gray-700">
-            {imageUrl && (
-              <Image
-                src={imageUrl}
-                alt={title}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                onLoad={() => setIsLoaded(true)}
-                priority={isFeatured}
-              />
+            {!isLoaded && (
+              <SkeletonImage height="100%" />
             )}
             
-            {/* Loading animation overlay */}
-            <motion.div
-              initial={{ opacity: 1 }}
-              animate={{ opacity: isLoaded ? 0 : 1 }}
-              transition={{ duration: 0.3 }}
-              className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800"
-            >
-              <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200 dark:bg-gray-700"></div>
-            </motion.div>
+            {imageUrl && (
+              <motion.div
+                animate={{ 
+                  scale: isHovered ? 1.05 : 1
+                }}
+                transition={{ duration: 0.4 }}
+                className="h-full w-full"
+              >
+                <Image
+                  src={imageUrl}
+                  alt={title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover"
+                  onLoad={() => setIsLoaded(true)}
+                  priority={isFeatured}
+                />
+              </motion.div>
+            )}
           </div>
 
           {/* Content container */}
           <div className="p-6">
             {/* Category and date */}
             <div className="mb-2 flex items-center justify-between">
-              <span className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              <motion.span 
+                className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400"
+                whileHover={{ color: '#000' }}
+              >
                 {category}
-              </span>
+              </motion.span>
               <span className="text-xs text-gray-500 dark:text-gray-400">{date}</span>
             </div>
 
             {/* Title */}
-            <h3 className="mb-2 font-serif text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 transition-colors duration-200 group-hover:text-gray-700 dark:group-hover:text-white md:text-2xl">
+            <motion.h3 
+              className="mb-2 font-serif text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 md:text-2xl"
+              animate={{ 
+                color: isHovered ? 'var(--accent)' : 'var(--foreground)'
+              }}
+              transition={{ duration: 0.2 }}
+            >
               {title}
-            </h3>
+            </motion.h3>
 
             {/* Excerpt */}
             <p className="mb-4 text-sm text-gray-600 dark:text-gray-300 md:text-base">
@@ -116,9 +132,35 @@ export default function BlogPostCard({
               </svg>
               {readingTime} read
             </div>
+            
+            {/* Read more indicator */}
+            <motion.div 
+              className="mt-4 flex items-center text-sm font-medium text-gray-800 dark:text-gray-200"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ 
+                opacity: isHovered ? 1 : 0,
+                x: isHovered ? 0 : -10
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              Read more
+              <motion.svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="ml-1 h-4 w-4" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+                animate={{ 
+                  x: isHovered ? 3 : 0
+                }}
+                transition={{ duration: 0.2 }}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </motion.svg>
+            </motion.div>
           </div>
-        </motion.div>
-      </Link>
-    </motion.article>
+        </Link>
+      </AnimatedCard>
+    </motion.div>
   );
 }

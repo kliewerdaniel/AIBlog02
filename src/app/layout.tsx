@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ClientThemeProvider from '@/components/ClientThemeProvider';
+import PageTransition from '@/components/PageTransition';
 
 export const metadata: Metadata = {
   title: 'Monochrome Blog',
@@ -20,7 +21,9 @@ export default function RootLayout({
         <ClientThemeProvider>
           <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="container py-8 flex-grow">{children}</main>
+            <PageTransition>
+              <main className="container py-8 flex-grow">{children}</main>
+            </PageTransition>
             <Footer />
           </div>
         </ClientThemeProvider>
