@@ -69,23 +69,7 @@ export default function Header() {
                     animate: { opacity: 1, y: 0 }
                   }}
                 >
-                  <NavLink href="/projects">Projects</NavLink>
-                </motion.li>
-                <motion.li
-                  variants={{
-                    initial: { opacity: 0, y: -10 },
-                    animate: { opacity: 1, y: 0 }
-                  }}
-                >
                   <NavLink href="/guides">Guides</NavLink>
-                </motion.li>
-                <motion.li
-                  variants={{
-                    initial: { opacity: 0, y: -10 },
-                    animate: { opacity: 1, y: 0 }
-                  }}
-                >
-                  <NavLink href="/contact">Contact</NavLink>
                 </motion.li>
               </motion.ul>
             </nav>

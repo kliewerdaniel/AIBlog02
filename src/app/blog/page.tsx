@@ -41,21 +41,13 @@ export default function BlogPage() {
         </FadeInOnScroll>
       </section>
       
-      {/* Featured Post */}
-      <div className="container mx-auto px-4 lg:px-8 mb-16">
-        <h2 className="font-serif text-2xl font-semibold mb-6">Featured Post</h2>
-        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:shadow-xl">
-          <BlogPostCard {...formattedPosts[0]} />
-        </div>
-      </div>
-      
-      {/* Regular Posts Grid */}
-      <div className="container mx-auto px-4 lg:px-8 space-y-10">
-        <h2 className="font-serif text-2xl font-semibold mb-6">Latest Articles</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {formattedPosts.slice(1).map((post) => (
-            <div key={post.id} className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:shadow-xl">
-              <BlogPostCard {...post} />
+      {/* All Posts */}
+      <div className="container mx-auto px-4 lg:px-8 space-y-16">
+        <h2 className="font-serif text-2xl font-semibold mb-6">All Articles</h2>
+        <div className="space-y-16">
+          {formattedPosts.map((post, index) => (
+            <div key={post.id} className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:shadow-xl">
+              <BlogPostCard {...post} isFeatured={index === 0} />
             </div>
           ))}
         </div>
