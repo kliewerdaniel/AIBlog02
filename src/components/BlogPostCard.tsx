@@ -42,7 +42,7 @@ export default function BlogPostCard({
     >
       <AnimatedCard 
         hoverEffect="lift"
-        className={`relative overflow-hidden h-full flex flex-col ${
+        className={`relative overflow-hidden h-full flex flex-col bg-white dark:bg-gray-800 ${
           isFeatured ? 'ring-2 ring-gray-900 dark:ring-gray-100' : ''
         }`}
       >

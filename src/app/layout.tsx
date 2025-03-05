@@ -27,7 +27,7 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen">
             <Header />
             <PageTransition>
-              <main className="container py-8 flex-grow">{children}</main>
+              <main className="container py-8 flex-grow bg-gray-50 dark:bg-gray-900">{children}</main>
             </PageTransition>
             <Footer />
           </div>

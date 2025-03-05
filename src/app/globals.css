@@ -31,6 +31,13 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Force dark mode for debugging */
+.dark {
+  color-scheme: dark;
+  background-color: #111827; /* bg-gray-900 */
+  color: #f3f4f6; /* text-gray-100 */
+}
+
 /* Typography styles */
 h1, h2, h3, h4, h5, h6 {
   @apply font-serif;

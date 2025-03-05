@@ -24,7 +24,7 @@ export default function BlogPage() {
   }));
   
   return (
-    <div className="space-y-16 pb-16">
+    <div className="space-y-16 pb-16 bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
       <section className="relative py-16 md:py-24">
         <FadeInOnScroll className="space-y-6">
@@ -42,17 +42,15 @@ export default function BlogPage() {
       </section>
       
       {/* Posts Grid */}
-      <FadeInOnScroll className="space-y-10" threshold={0.1}>
-        <StaggerContainer delay={0.1} staggerDelay={0.15}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {formattedPosts.map((post, index) => (
-              <StaggerItem key={post.id} index={index}>
-                <BlogPostCard {...post} />
-              </StaggerItem>
-            ))}
-          </div>
-        </StaggerContainer>
-      </FadeInOnScroll>
+      <div className="space-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {formattedPosts.map((post, index) => (
+            <div key={post.id} className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md">
+              <BlogPostCard {...post} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
