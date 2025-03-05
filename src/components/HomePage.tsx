@@ -261,7 +261,7 @@ export default function HomePage({ posts }: HomePageProps) {
           </RevealOnScroll>
           <RevealOnScroll>
             <Link 
-              href="/archive" 
+              href="/blog" 
               className="text-sm font-medium hover:underline"
             >
               View All
