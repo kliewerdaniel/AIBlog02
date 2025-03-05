@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import { Box, Card, Flex, Stack, Text, TextInput } from '@sanity/ui';
 import { set, unset } from 'sanity';
-import { useId } from '@reach/auto-id';
 
 // Define the props for the ColorInput component
 interface ColorInputProps {
@@ -14,7 +13,7 @@ interface ColorInputProps {
 // Custom color input component with preview
 export default function ColorInput(props: ColorInputProps) {
   const { value, onChange, readOnly, elementProps } = props;
-  const inputId = useId() || '';
+  const inputId = useId();
   const [inputValue, setInputValue] = useState(value || '');
 
   // Handle input change
