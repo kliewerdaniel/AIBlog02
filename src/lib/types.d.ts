@@ -3,10 +3,6 @@ declare module './structure' {
   export const defaultDocumentNode: DefaultDocumentNodeResolver;
 }
 
-declare module 'sanity-plugin-dashboard-widget-netlify' {
-  export const netlifyWidget: any;
-}
-
 declare module 'sanity-plugin-media' {
   export const media: any;
 }
