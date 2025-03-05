@@ -1,40 +1,33 @@
+'use client';
+
 import Link from 'next/link';
+import { MotionContainer, MotionItem } from '@/components/MotionWrapper';
+import MotionWrapper from '@/components/MotionWrapper';
 
-// Data for the blog posts
-const posts = [
-  {
-    id: 1,
-    title: 'The Art of Monochromatic Design',
-    date: 'March 5, 2025',
-    excerpt: 'Exploring how limiting your color palette to black and white can create stunning, timeless designs that communicate with clarity and elegance.',
-  },
-  {
-    id: 2,
-    title: 'Typography in Black & White',
-    date: 'March 7, 2025',
-    excerpt: 'How serif and sans-serif fonts work together to create visual hierarchy and improve readability in monochromatic design systems.',
-  },
-  {
-    id: 3,
-    title: 'Minimalism: Less is More',
-    date: 'March 10, 2025',
-    excerpt: 'The philosophy behind minimalist design and why removing color can actually enhance the user experience by focusing attention on what matters.',
-  },
-];
+interface Post {
+  id: number;
+  title: string;
+  date: string;
+  excerpt: string;
+}
 
-export default function Home() {
+interface HomePageProps {
+  posts: Post[];
+}
+
+export default function HomePage({ posts }: HomePageProps) {
   return (
     <div className="space-y-16">
-      <div className="border-b border-subtle pb-8">
+      <MotionWrapper animation="fade-in" className="border-b border-subtle pb-8">
         <h1 className="text-5xl font-serif font-bold tracking-tight">Monochrome</h1>
         <p className="mt-4 text-xl text-gray-600 dark:text-gray-400">
           A sophisticated black and white blog with elegant typography and smooth animations
         </p>
-      </div>
+      </MotionWrapper>
 
-      <div className="space-y-16">
+      <MotionContainer className="space-y-16">
         {posts.map((post) => (
-          <div 
+          <MotionItem 
             key={post.id}
             className="border-b border-subtle pb-12"
           >
@@ -62,11 +55,15 @@ export default function Home() {
                 </Link>
               </div>
             </article>
-          </div>
+          </MotionItem>
         ))}
-      </div>
+      </MotionContainer>
 
-      <div className="bg-gray-100 dark:bg-gray-800 p-8 rounded-lg">
+      <MotionWrapper 
+        animation="fade-in" 
+        delay={0.5} 
+        className="bg-gray-100 dark:bg-gray-800 p-8 rounded-lg"
+      >
         <h3 className="text-2xl font-serif font-semibold mb-4">Subscribe to the Newsletter</h3>
         <p className="mb-6 text-gray-600 dark:text-gray-300">
           Get the latest posts delivered right to your inbox.
@@ -81,7 +78,7 @@ export default function Home() {
             Subscribe
           </button>
         </div>
-      </div>
+      </MotionWrapper>
     </div>
   );
 }

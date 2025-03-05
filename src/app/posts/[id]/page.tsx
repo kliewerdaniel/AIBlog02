@@ -1,44 +1,143 @@
 import Link from 'next/link';
 
+// Sample post data based on ID
+const getPostData = (id: string) => {
+  const posts = [
+    {
+      id: '1',
+      title: 'The Art of Monochromatic Design',
+      date: 'March 5, 2025',
+      excerpt: 'Exploring how limiting your color palette to black and white can create stunning, timeless designs that communicate with clarity and elegance.',
+    },
+    {
+      id: '2',
+      title: 'Typography in Black & White',
+      date: 'March 7, 2025',
+      excerpt: 'How serif and sans-serif fonts work together to create visual hierarchy and improve readability in monochromatic design systems.',
+    },
+    {
+      id: '3',
+      title: 'Minimalism: Less is More',
+      date: 'March 10, 2025',
+      excerpt: 'The philosophy behind minimalist design and why removing color can actually enhance the user experience by focusing attention on what matters.',
+    },
+  ];
+  
+  return posts.find(post => post.id === id) || {
+    id,
+    title: `Sample Blog Post ${id}`,
+    date: `March ${Number(id) + 4}, 2025`,
+    excerpt: 'A sample blog post with monochromatic styling.'
+  };
+};
+
 export default function Post({ params }: { params: { id: string } }) {
+  const post = getPostData(params.id);
+  
   return (
-    <div className="space-y-8">
-      <Link href="/" className="inline-block mb-4 hover:underline">
-        ← Back to Home
-      </Link>
+    <div className="space-y-12">
+      <div>
+        <Link 
+          href="/" 
+          className="inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50 transition-colors duration-200"
+        >
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            className="h-4 w-4 mr-2" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Home
+        </Link>
+      </div>
       
       <article>
-        <header className="border-b border-primary pb-6 mb-8">
-          <h1 className="text-5xl font-bold">Sample Blog Post {params.id}</h1>
-          <p className="mt-2 text-sm text-gray-600">March {Number(params.id) + 4}, 2025</p>
-        </header>
+        <div className="border-b border-subtle pb-8 mb-12">
+          <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight">{post.title}</h1>
+          <p className="mt-4 text-gray-500 dark:text-gray-400">{post.date}</p>
+        </div>
         
-        <div className="prose max-w-none">
-          <p className="text-lg mb-6">
-            This is a sample blog post with minimalist black and white styling. The clean design helps readers focus on the content without distractions.
+        <div className="bg-gray-100 dark:bg-gray-800 aspect-video mb-12 overflow-hidden">
+          <div className="w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-600 text-lg">
+            Featured Image Placeholder
+          </div>
+        </div>
+        
+        <div className="prose dark:prose-invert prose-lg max-w-none">
+          <p className="text-xl leading-relaxed mb-8 text-gray-700 dark:text-gray-300">
+            {post.excerpt} This monochromatic design approach creates a timeless aesthetic that puts the focus entirely on content and typography.
           </p>
           
-          <h2>Section Heading</h2>
+          <h2>The Power of Contrast</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim.
+            In a world saturated with color, black and white design stands out through its stark contrast and timeless elegance. By removing color from the equation, we're forced to rely on other design elements: typography, spacing, hierarchy, and composition.
           </p>
           
           <p>
-            Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam.
+            This limitation isn't a weakness—it's a strength. It creates focus and clarity, allowing the content to speak for itself without the distraction of color. The result is a design that feels both modern and classic, sophisticated yet approachable.
           </p>
           
-          <h2>Another Section</h2>
+          <h2>Typography as the Hero</h2>
           <p>
-            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet.
+            In monochromatic design, typography takes center stage. The interplay between serif and sans-serif fonts creates visual interest and establishes hierarchy. Serif fonts like Playfair Display bring a touch of elegance to headings, while clean sans-serif fonts like Inter ensure readability for body text.
           </p>
           
-          <blockquote>
-            "Simplicity is the ultimate sophistication." — Leonardo da Vinci
+          <p>
+            The careful selection of font weights, sizes, and spacing creates rhythm and flow, guiding the reader through the content with ease. This attention to typographic detail is what separates good monochromatic design from great monochromatic design.
+          </p>
+          
+          <blockquote className="border-l-4 border-gray-300 dark:border-gray-700 pl-6 italic">
+            "Black and white creates a strange dreamscape that color never can." — Jack Antonoff
           </blockquote>
           
+          <h2>Embracing Space</h2>
           <p>
-            Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper.
+            White space (or negative space) is a crucial element in monochromatic design. It provides breathing room for the content, creates emphasis, and contributes to the overall aesthetic. The strategic use of space can direct attention, create groupings, and establish relationships between elements.
           </p>
+          
+          <p>
+            In this blog design, you'll notice generous margins, comfortable line heights, and thoughtful spacing between elements. This isn't just about aesthetics—it's about creating a reading experience that feels comfortable and natural.
+          </p>
+          
+          <h3>Adding Dimension with Animation</h3>
+          <p>
+            While staying true to our monochromatic palette, we've incorporated subtle animations to add dimension and life to the design. These animations enhance the user experience without distracting from the content, creating moments of delight as you navigate through the blog.
+          </p>
+          
+          <p>
+            The animations follow the same principles as our visual design: clean, purposeful, and elegant. They reinforce the content hierarchy and guide the user's attention in a natural, intuitive way.
+          </p>
+        </div>
+        
+        <div className="mt-16 pt-8 border-t border-subtle">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <h3 className="font-serif text-xl font-semibold">Share this article</h3>
+              <div className="flex space-x-4 mt-2">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50">
+                  Twitter
+                </a>
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50">
+                  Facebook
+                </a>
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50">
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+            
+            <div>
+              <Link 
+                href="/" 
+                className="inline-block px-6 py-2 border border-gray-800 dark:border-gray-200 hover:bg-gray-900 hover:text-gray-50 dark:hover:bg-gray-50 dark:hover:text-gray-900 transition-colors duration-200"
+              >
+                Read More Articles
+              </Link>
+            </div>
+          </div>
         </div>
       </article>
     </div>
