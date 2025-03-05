@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { getSummaries } from './summaries';
 
 // Define the content item type
 export type ContentItem = 
@@ -340,11 +341,15 @@ export function getAllPosts(): Post[] {
   // Filter out template files and non-markdown files
   const postFilenames = filenames.filter(filename => 
     filename.endsWith('.md') && 
-    !filename.startsWith('_template')
+    !filename.startsWith('_template') &&
+    filename !== 'summaries.md'
   );
   
   // Log the number of posts found for debugging
   console.log(`Found ${postFilenames.length} posts out of ${filenames.length} files in _posts directory`);
+  
+  // Get summaries from summaries.md
+  const summaryMap = getSummaries();
   
   const allPosts = postFilenames.map((filename, index) => {
     try {
@@ -388,6 +393,27 @@ export function getAllPosts(): Post[] {
           ? tags 
           : [];
       
+      // Debug logging
+      console.log(`Post ID: ${id}`);
+      console.log(`Has summary: ${summaryMap.has(id)}`);
+      
+      // Try to find a matching summary
+      let summary = summaryMap.get(id);
+      
+      // If no summary found, try to match by title
+      if (!summary && data.title) {
+        const titleId = data.title
+          .toLowerCase()
+          .replace(/[^\w\s-]/g, '')
+          .replace(/[\s_-]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+        
+        console.log(`Trying title ID: ${titleId}`);
+        console.log(`Has title summary: ${summaryMap.has(titleId)}`);
+        
+        summary = summaryMap.get(titleId);
+      }
+      
       // Create the post object
       const post: Post = {
         id,
@@ -398,7 +424,7 @@ export function getAllPosts(): Post[] {
           day: 'numeric'
         }) : new Date().toLocaleDateString(),
         readingTime: estimateReadingTime(content),
-        excerpt: data.description || content.substring(0, 150) + '...',
+        excerpt: summary || data.description || content.substring(0, 150) + '...',
         author: {
           name: data.author || 'Anonymous',
           avatar: '/images/avatar-default.jpg',

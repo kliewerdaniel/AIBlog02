@@ -189,31 +189,23 @@ export default function HomePage({ posts }: HomePageProps) {
   })).sort((a, b) => b.count - a.count);
   
   // Convert posts to the format expected by BlogPostCard
-  const formattedPosts = posts.map((post, index) => {
-    // Get more content for the excerpt
-    let extendedExcerpt = post.excerpt;
-    
-    // If there's content, try to get more text from the first few paragraphs
-    if (post.content && post.content.length > 0) {
-      const paragraphs = post.content.filter(item => item.type === 'paragraph');
-      if (paragraphs.length > 0) {
-        // Use the first paragraph or two for a longer excerpt
-        const contentText = paragraphs.slice(0, 2).map(p => p.content).join(' ');
-        if (contentText.length > 0) {
-          extendedExcerpt = contentText.length > 300 
-            ? contentText.substring(0, 300) + '...' 
-            : contentText;
-        }
-      }
+  const formattedPosts = posts.map((post) => {
+    // Extract summary from post content if it exists
+    let summary = '';
+    const summaryMatch = post.excerpt.match(/\*\*Summary:\*\*\s*([\s\S]{1,500})/);
+    if (summaryMatch && summaryMatch[1]) {
+      summary = summaryMatch[1].substring(0, 500);
+      if (summaryMatch[1].length > 500) summary += '...';
     }
-    
+
     return {
       id: post.id,
       title: post.title,
-      excerpt: extendedExcerpt,
+      excerpt: post.excerpt.substring(0, 500) + '...', // Fallback excerpt
+      summary: summary, // Add the extracted summary
       date: post.date,
       readingTime: post.readingTime,
-      isFeatured: index === 0 // Mark the first post as featured
+      isFeatured: false // No posts are featured
     };
   });
   
@@ -268,28 +260,15 @@ export default function HomePage({ posts }: HomePageProps) {
         </div>
       </section>
       
-      {/* Featured/Recent Posts Section */}
+      {/* Posts Section */}
       <div id="featured">
         <FadeInOnScroll className="space-y-10" threshold={0.1}>
-        <div className="mb-8">
-          <RevealOnScroll>
-            <h2 className="font-serif text-3xl md:text-4xl font-semibold">Featured Articles</h2>
-          </RevealOnScroll>
-        </div>
         
         <RevealOnScroll>
           <PostCarousel posts={formattedPosts} />
         </RevealOnScroll>
         </FadeInOnScroll>
       </div>
-      
-      {/* Categories Section */}
-      <FadeInOnScroll className="space-y-8" direction="right">
-        <RevealOnScroll>
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold">Categories</h2>
-        </RevealOnScroll>
-        <CategoryScroller categories={categories} />
-      </FadeInOnScroll>
       
       
       {/* About Section */}

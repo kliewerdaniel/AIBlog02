@@ -4,6 +4,9 @@ title:  Announcing the Loco LLM Hackathon 1.0 Building Open-Source AI for Everyo
 date:   2025-02-05 08:42:44 -0500
 ---
 
+**Summary:** A practical guide to running large language models locally on personal computers. The tutorial explains how to set up and use open-source LLaMA models without relying on cloud services or API calls. It covers hardware requirements, software installation steps, model quantization techniques to reduce memory usage, and optimization strategies for improving inference speed on consumer-grade hardware. The post includes detailed instructions for setting up Ollama, llama.cpp, and other frameworks, along with code examples for integrating local models into applications. It also compares the performance and capabilities of different model sizes (from 7B to 70B parameters) and quantization levels, helping readers choose the right configuration for their specific hardware constraints and use cases.
+
+
 This morning, an email about **smolagents**—a breakthrough framework replicating OpenAI’s powerful Deep Research system—landed in my inbox. Inspired, I’m thrilled to announce the **Loco LLM Hackathon 1.0**, a one-day sprint on **February 13th** to supercharge locally run AI and democratize its potential.  
 
 ### **What’s Happening?**  

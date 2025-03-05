@@ -12,31 +12,23 @@ export default function BlogPage() {
   const posts = getAllPosts();
   
   // Convert posts to the format expected by BlogPostCard
-  const formattedPosts = posts.map((post, index) => {
-    // Get more content for the excerpt
-    let extendedExcerpt = post.excerpt;
-    
-    // If there's content, try to get more text from the first few paragraphs
-    if (post.content && post.content.length > 0) {
-      const paragraphs = post.content.filter(item => item.type === 'paragraph');
-      if (paragraphs.length > 0) {
-        // Use the first paragraph or two for a longer excerpt
-        const contentText = paragraphs.slice(0, 2).map(p => p.content).join(' ');
-        if (contentText.length > 0) {
-          extendedExcerpt = contentText.length > 300 
-            ? contentText.substring(0, 300) + '...' 
-            : contentText;
-        }
-      }
+  const formattedPosts = posts.map((post) => {
+    // Extract summary from post content if it exists
+    let summary = '';
+    const summaryMatch = post.excerpt.match(/\*\*Summary:\*\*\s*([\s\S]{1,500})/);
+    if (summaryMatch && summaryMatch[1]) {
+      summary = summaryMatch[1].substring(0, 500);
+      if (summaryMatch[1].length > 500) summary += '...';
     }
-    
+
     return {
       id: post.id,
       title: post.title,
-      excerpt: extendedExcerpt,
+      excerpt: post.excerpt.substring(0, 500) + '...', // Fallback excerpt
+      summary: summary, // Add the extracted summary
       date: post.date,
       readingTime: post.readingTime,
-      isFeatured: index === 0 // Mark the first post as featured
+      isFeatured: false // No posts are featured
     };
   });
   
@@ -62,9 +54,9 @@ export default function BlogPage() {
       <div className="container mx-auto px-4 lg:px-8 space-y-16">
         <h2 className="font-serif text-2xl font-semibold mb-6">All Articles</h2>
         <div className="space-y-16">
-          {formattedPosts.map((post, index) => (
+          {formattedPosts.map((post) => (
             <div key={post.id} className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:shadow-xl">
-              <BlogPostCard {...post} isFeatured={index === 0} />
+              <BlogPostCard {...post} />
             </div>
           ))}
         </div>

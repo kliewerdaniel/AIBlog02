@@ -4,6 +4,9 @@ title:  High-Level Architecture for the LangChain Application using Ollama
 date:   2024-12-27 07:42:44 -0500
 ---
 
+**Summary:** A step-by-step guide to building AI applications that run locally using LangChain and Ollama. The tutorial explains how to set up a Python environment with LangChain, install and configure Ollama to run open-source language models on your local machine, and connect the two systems to create applications that don't rely on external API calls. It covers implementing various LangChain components including chains, agents, and memory with local models, and demonstrates practical examples like building a document Q&A system, a conversational agent with web search capabilities, and a code assistant. The post also addresses performance considerations and provides optimization tips for running large language models locally.
+
+
 
 ![Alt text](/static/images/langchain.png){:loading="lazy"}
 

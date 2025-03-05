@@ -9,6 +9,7 @@ interface Post {
   id: string | number;
   title: string;
   excerpt: string;
+  summary?: string;
   date: string;
   readingTime: string;
   isFeatured?: boolean;
@@ -101,14 +102,6 @@ export default function PostCarousel({ posts }: PostCarouselProps) {
 
   return (
     <div className="relative overflow-hidden" ref={carouselRef}>
-      {/* View All button */}
-      <div className="absolute top-4 right-4 z-20">
-        <Link href="/blog">
-          <button className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white px-4 py-2 rounded-md shadow-md hover:shadow-lg transition-shadow duration-200 text-sm font-medium">
-            View All
-          </button>
-        </Link>
-      </div>
       <motion.div
         className="flex"
         animate={controls}

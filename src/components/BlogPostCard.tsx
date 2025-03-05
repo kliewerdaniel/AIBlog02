@@ -11,6 +11,7 @@ interface BlogPostCardProps {
   id: string | number; // Updated to accept both string and number
   title: string;
   excerpt: string;
+  summary?: string; // Add optional summary prop
   date: string;
   readingTime: string;
   isFeatured?: boolean;
@@ -20,6 +21,7 @@ export default function BlogPostCard({
   id,
   title,
   excerpt,
+  summary,
   date,
   readingTime,
   isFeatured = false,
@@ -38,21 +40,8 @@ export default function BlogPostCard({
     >
       <AnimatedCard 
         hoverEffect="lift"
-        className={`relative overflow-hidden h-full flex flex-col bg-white dark:bg-gray-800 ${
-          isFeatured ? 'ring-2 ring-gray-900 dark:ring-gray-100' : ''
-        }`}
+        className="relative overflow-hidden h-full flex flex-col bg-white dark:bg-gray-800"
       >
-        {/* Featured badge */}
-        {isFeatured && (
-          <motion.div 
-            className="absolute top-4 right-4 z-10 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs font-medium uppercase tracking-wider px-2 py-1 rounded"
-            initial={{ opacity: 0, scale: 0.8, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.3 }}
-          >
-            Featured
-          </motion.div>
-        )}
 
         <Link href={`/posts/${id}`} className="block flex-grow flex flex-col">
 
@@ -74,9 +63,9 @@ export default function BlogPostCard({
               {title}
             </motion.h3>
 
-            {/* Excerpt - increased line clamp from 4 to 8 for more text */}
+            {/* Display summary if available, otherwise fall back to excerpt */}
             <p className="mb-5 text-sm text-gray-600 dark:text-gray-300 md:text-base line-clamp-8 flex-grow">
-              {excerpt}
+              {summary || excerpt}
             </p>
 
             {/* Reading time */}

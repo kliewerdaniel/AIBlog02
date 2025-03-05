@@ -3,6 +3,9 @@ layout: post
 title:  Basic Swarm Chatbot
 date:   2024-11-28 07:40:44 -0500
 ---
+
+**Summary:** A practical guide to creating a customer support chatbot that uses OpenAI's Swarm to coordinate multiple specialized agents. The tutorial covers setting up the project environment, securely storing API keys, and implementing specialized agents for different types of customer queries: billing support, technical support, and general inquiries. It explains how to create a triage system that analyzes user queries and routes them to the appropriate specialized agent, with complete code examples and sample interactions. The guide also includes instructions for extending the chatbot with additional agents and implementing a continuous conversation loop for more natural interactions.
+
 # Guide to Building an AI-Powered Customer Support Chatbot Using Swarm
 
 This guide will help you create an AI-powered customer support chatbot that utilizes OpenAI's Swarm to coordinate multiple specialized agents. Each agent will handle specific types of customer queries, such as billing issues, technical support, or general inquiries.
