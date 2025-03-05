@@ -88,21 +88,22 @@ export default function BlogPostCard({
           </div>
 
           {/* Content container */}
-          <div className="p-6 flex-grow flex flex-col">
+          <div className="p-8 flex-grow flex flex-col">
             {/* Category and date */}
-            <div className="mb-2 flex items-center justify-between">
+            <div className="mb-3 flex items-center justify-between">
               <motion.span 
-                className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400"
-                whileHover={{ color: '#000' }}
+                className="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300"
+                whileHover={{ backgroundColor: 'var(--accent-light)', color: 'var(--accent)' }}
+                transition={{ duration: 0.2 }}
               >
                 {category}
               </motion.span>
-              <span className="text-xs text-gray-500 dark:text-gray-400">{date}</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">{date}</span>
             </div>
 
             {/* Title */}
             <motion.h3 
-              className="mb-2 font-serif text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 md:text-2xl line-clamp-2 min-h-[3.5rem]"
+              className="mb-3 font-serif text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 md:text-2xl line-clamp-2 min-h-[3.5rem]"
               animate={{ 
                 color: isHovered ? 'var(--accent)' : 'var(--foreground)'
               }}
@@ -112,12 +113,12 @@ export default function BlogPostCard({
             </motion.h3>
 
             {/* Excerpt */}
-            <p className="mb-4 text-sm text-gray-600 dark:text-gray-100 md:text-base line-clamp-3 flex-grow">
+            <p className="mb-5 text-sm text-gray-600 dark:text-gray-300 md:text-base line-clamp-4 flex-grow">
               {excerpt}
             </p>
 
             {/* Reading time */}
-            <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
+            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="mr-1 h-4 w-4"
@@ -137,7 +138,7 @@ export default function BlogPostCard({
             
             {/* Read more indicator */}
             <motion.div 
-              className="mt-4 flex items-center text-sm font-medium text-gray-800 dark:text-gray-200"
+              className="mt-2 flex items-center text-sm font-medium text-gray-800 dark:text-gray-200"
               initial={{ opacity: 0, x: -10 }}
               animate={{ 
                 opacity: isHovered ? 1 : 0,
