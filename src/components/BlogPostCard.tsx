@@ -71,6 +71,7 @@ export default function BlogPostCard({
                 }}
                 transition={{ duration: 0.4 }}
                 className="h-full w-full"
+                style={{ position: 'relative' }}
               >
                 <Image
                   src={imageUrl}

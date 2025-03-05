@@ -42,24 +42,6 @@ export default function AnimatedLogo() {
       animate="animate"
       whileHover="hover"
     >
-      {/* Circle */}
-      <motion.div 
-        className="w-4 h-4 bg-black dark:bg-white rounded-full"
-        variants={shapeVariants}
-      />
-      
-      {/* Square */}
-      <motion.div 
-        className="w-4 h-4 bg-gray-800 dark:bg-gray-200"
-        variants={shapeVariants}
-      />
-      
-      {/* Rectangle */}
-      <motion.div 
-        className="w-8 h-4 bg-gray-600 dark:bg-gray-400"
-        variants={shapeVariants}
-      />
-      
       {/* Text */}
       <motion.span 
         className="font-serif text-2xl font-bold"
@@ -73,7 +55,7 @@ export default function AnimatedLogo() {
           }
         }}
       >
-        Monochrome
+        Daniel Kliewer
       </motion.span>
     </motion.div>
   );

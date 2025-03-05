@@ -23,7 +23,7 @@ export default function Footer() {
             <div>
               <h3 className="text-xl font-serif font-semibold mb-4">About</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                A monochromatic black and white blog focused on clean design and readability.
+                A programming blog by Daniel Kliewer, covering web development, data annotation, and digital art.
               </p>
               <SocialIcons />
             </div>
@@ -31,7 +31,7 @@ export default function Footer() {
           
           <MotionWrapper animation="slide-up" delay={0.2}>
             <div>
-              <h3 className="text-xl font-serif font-semibold mb-4">Links</h3>
+              <h3 className="text-xl font-serif font-semibold mb-4">Quick Links</h3>
               <ul className="space-y-3">
                 <li>
                   <Link href="/" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50 transition-colors duration-200">
@@ -41,6 +41,21 @@ export default function Footer() {
                 <li>
                   <Link href="/about" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50 transition-colors duration-200">
                     About
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blog" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50 transition-colors duration-200">
+                    Blog
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/projects" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50 transition-colors duration-200">
+                    Projects
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/guides" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50 transition-colors duration-200">
+                    Guides
                   </Link>
                 </li>
                 <li>
@@ -64,7 +79,7 @@ export default function Footer() {
           transition={{ delay: 0.4, duration: 0.5 }}
           viewport={{ once: true }}
         >
-          <p>&copy; {currentYear} Monochrome Blog. All rights reserved.</p>
+          <p>&copy; {currentYear} Daniel Kliewer. All rights reserved.</p>
         </motion.div>
       </div>
     </motion.footer>

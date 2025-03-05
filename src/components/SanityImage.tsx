@@ -82,7 +82,7 @@ export default function SanityImage({
 
   // Return the appropriate Image component based on fill mode
   return fill ? (
-    <div className="relative h-full w-full">
+    <div className="relative h-full w-full" style={{ position: 'relative' }}>
       <Image
         {...commonProps}
         fill={true}
@@ -125,7 +125,7 @@ export function AspectImage({
   const paddingClass = ratioMap[ratio];
 
   return (
-    <div className={`relative w-full ${paddingClass} overflow-hidden ${className}`}>
+    <div className={`relative w-full ${paddingClass} overflow-hidden ${className}`} style={{ position: 'relative' }}>
       <SanityImage
         image={image}
         alt={alt}
