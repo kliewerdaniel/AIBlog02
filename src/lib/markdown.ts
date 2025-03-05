@@ -120,23 +120,51 @@ function parseMarkdownContent(content: string): ContentItem[] {
   let currentList: string[] = [];
   let isOrderedList = false;
   let inList = false;
+  let currentParagraph = '';
   
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
     
-    // Skip empty lines
-    if (!line) continue;
+    // Handle empty lines - they can separate paragraphs
+    if (!line) {
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: currentParagraph
+        });
+        currentParagraph = '';
+      }
+      continue;
+    }
     
     // Headings
     if (line.startsWith('# ')) {
       // H1 is usually the title, so we skip it
       continue;
     } else if (line.startsWith('## ')) {
+      // If we have a paragraph in progress, add it first
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: currentParagraph
+        });
+        currentParagraph = '';
+      }
+      
       parsedContent.push({
         type: 'heading',
         content: line.substring(3)
       });
     } else if (line.startsWith('### ')) {
+      // If we have a paragraph in progress, add it first
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: currentParagraph
+        });
+        currentParagraph = '';
+      }
+      
       parsedContent.push({
         type: 'subheading',
         content: line.substring(4)
@@ -144,6 +172,15 @@ function parseMarkdownContent(content: string): ContentItem[] {
     }
     // Blockquotes
     else if (line.startsWith('> ')) {
+      // If we have a paragraph in progress, add it first
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: currentParagraph
+        });
+        currentParagraph = '';
+      }
+      
       parsedContent.push({
         type: 'blockquote',
         content: line.substring(2)
@@ -151,6 +188,15 @@ function parseMarkdownContent(content: string): ContentItem[] {
     }
     // Code blocks
     else if (line.startsWith('```')) {
+      // If we have a paragraph in progress, add it first
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: currentParagraph
+        });
+        currentParagraph = '';
+      }
+      
       const language = line.substring(3).trim();
       let codeContent = '';
       i++;
@@ -168,6 +214,15 @@ function parseMarkdownContent(content: string): ContentItem[] {
     }
     // Ordered lists
     else if (/^\d+\.\s/.test(line)) {
+      // If we have a paragraph in progress, add it first
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: currentParagraph
+        });
+        currentParagraph = '';
+      }
+      
       if (!inList || !isOrderedList) {
         // Start a new ordered list
         if (inList) {
@@ -187,6 +242,15 @@ function parseMarkdownContent(content: string): ContentItem[] {
     }
     // Unordered lists
     else if (/^[\*\-]\s/.test(line)) {
+      // If we have a paragraph in progress, add it first
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: currentParagraph
+        });
+        currentParagraph = '';
+      }
+      
       if (!inList || isOrderedList) {
         // Start a new unordered list
         if (inList) {
@@ -204,7 +268,7 @@ function parseMarkdownContent(content: string): ContentItem[] {
       }
       currentList.push(line.replace(/^[\*\-]\s/, ''));
     }
-    // Regular paragraphs
+    // Regular paragraphs - accumulate lines for a single paragraph
     else {
       if (inList) {
         // End the current list
@@ -218,10 +282,12 @@ function parseMarkdownContent(content: string): ContentItem[] {
         inList = false;
       }
       
-      parsedContent.push({
-        type: 'paragraph',
-        content: line
-      });
+      // If we already have content in the paragraph, add a space
+      if (currentParagraph) {
+        currentParagraph += ' ' + line;
+      } else {
+        currentParagraph = line;
+      }
     }
   }
   
@@ -232,6 +298,14 @@ function parseMarkdownContent(content: string): ContentItem[] {
       content: currentList.join(', '), // Join items for content field
       ordered: isOrderedList,
       items: [...currentList]
+    });
+  }
+  
+  // Add any remaining paragraph
+  if (currentParagraph) {
+    parsedContent.push({
+      type: 'paragraph',
+      content: currentParagraph
     });
   }
   

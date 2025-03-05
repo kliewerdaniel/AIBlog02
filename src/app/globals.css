@@ -17,9 +17,9 @@
 /* Dark mode variables */
 .dark {
   --background: #000000;
-  --foreground: #F5F5F5;
-  --muted: #A3A3A3;
-  --accent: #D4D4D4;
+  --foreground: #FFFFFF;
+  --muted: #BDBDBD;
+  --accent: #E0E0E0;
   --border: #404040;
 }
 
