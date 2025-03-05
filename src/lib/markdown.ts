@@ -33,6 +33,7 @@ export interface Post {
   date: string;
   readingTime: string;
   excerpt: string;
+  fullSummary?: string; // Add a new field for the full summary
   author: {
     name: string;
     avatar: string;
@@ -414,6 +415,11 @@ export function getAllPosts(): Post[] {
         summary = summaryMap.get(titleId);
       }
       
+      // Extract summary from content if it exists
+      const summaryMatch = content.match(/\*\*Summary:\*\*\s*([\s\S]*?)(?=\n\n)/) || 
+                           content.match(/\*\*.*?:\*\*\s*([\s\S]*?)(?=\n\n)/);
+      const extractedSummary = summaryMatch ? summaryMatch[1].trim() : null;
+      
       // Create the post object
       const post: Post = {
         id,
@@ -424,14 +430,15 @@ export function getAllPosts(): Post[] {
           day: 'numeric'
         }) : new Date().toLocaleDateString(),
         readingTime: estimateReadingTime(content),
-        excerpt: summary || data.description || content.substring(0, 150) + '...',
+        excerpt: extractedSummary || summary || data.description || content.substring(0, 150) + '...',
+        fullSummary: extractedSummary || summary, // Store the full summary without truncation
         author: {
           name: data.author || 'Anonymous',
           avatar: '/images/avatar-default.jpg',
           bio: data.authorBio || 'Author'
         },
         featuredImage: {
-          src: data.image || '/images/blog-1.jpg',
+          src: data.image || '',
           alt: data.title || 'Blog post image',
           caption: data.imageCaption
         },
@@ -456,7 +463,7 @@ export function getAllPosts(): Post[] {
           bio: 'System'
         },
         featuredImage: {
-          src: '/images/blog-1.jpg',
+          src: '',
           alt: 'Error',
         },
         content: [{
@@ -488,23 +495,11 @@ export function getAllPosts(): Post[] {
       title: sortedPosts[index + 1].title
     } : undefined;
     
-    // Add related posts (3 most recent excluding current post)
-    const relatedPosts = sortedPosts
-      .filter(p => p.id !== post.id)
-      .slice(0, 3)
-      .map(p => ({
-        id: p.id,
-        title: p.title,
-        excerpt: p.excerpt,
-        date: p.date,
-        image: p.featuredImage.src
-      }));
-    
     return {
       ...post,
       nextPost,
       previousPost,
-      relatedPosts
+      relatedPosts: [] // Empty array since related posts are not displayed
     };
   });
   

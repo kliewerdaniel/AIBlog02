@@ -3,6 +3,9 @@ layout: post
 title:  Privacy Policy
 date:   2025-02-23 07:42:44 -0500
 ---
+
+**Summary:** A detailed privacy policy document for the AI Filename Generator Chrome Extension, explaining how the extension handles user data and respects privacy. The policy outlines that the extension processes images locally using Ollama AI without transmitting data to external servers, details the required browser permissions and their justifications, confirms that no third-party analytics or tracking is used, and describes the security measures implemented to protect user privacy. The document also includes information about policy updates and contact details for privacy-related inquiries, providing users with transparent information about how their data is handled when using the extension.
+
 # Privacy Policy for AI Filename Generator
 
 ## 1. Introduction
@@ -34,7 +37,7 @@ The extension requires the following permissions for functionality:
 - The extension only interacts with images **when explicitly requested by the user**.
 - No background data collection occurs.
 - The extension does **not** execute remote code from external sources.
-- All operations are confined to the user’s local environment.
+- All operations are confined to the user's local environment.
 
 ## 6. Changes to This Policy
 Any updates to this Privacy Policy will be posted on this page. It is recommended to review this policy periodically.
