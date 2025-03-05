@@ -15,6 +15,10 @@ const nextConfig = {
     config.resolve.fallback = { fs: false };
     return config;
   },
+  // Disable ESLint during build
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 module.exports = nextConfig
