@@ -1,14 +1,13 @@
-import '@/styles/globals.css';
+import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-
-const inter = Inter({ subsets: ['latin'] });
+import ClientThemeProvider from '@/components/ClientThemeProvider';
+import PageTransition from '@/components/PageTransition';
 
 export const metadata: Metadata = {
-  title: 'Minimalist Blog',
-  description: 'A minimalist black and white blog built with Next.js and Tailwind CSS',
+  title: 'Monochrome Blog',
+  description: 'A sophisticated black and white blog with elegant typography and smooth animations'
 };
 
 export default function RootLayout({
@@ -17,11 +16,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        <main className="container-custom py-8">{children}</main>
-        <Footer />
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ClientThemeProvider>
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <PageTransition>
+              <main className="container py-8 flex-grow">{children}</main>
+            </PageTransition>
+            <Footer />
+          </div>
+        </ClientThemeProvider>
       </body>
     </html>
   );
