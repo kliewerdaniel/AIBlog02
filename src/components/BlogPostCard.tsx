@@ -8,7 +8,7 @@ import { AnimatedCard } from './MicroInteractions';
 import { SkeletonImage } from './LoadingStates';
 
 interface BlogPostCardProps {
-  id: number;
+  id: string | number; // Updated to accept both string and number
   title: string;
   excerpt: string;
   date: string;
@@ -59,7 +59,7 @@ export default function BlogPostCard({
 
         <Link href={`/posts/${id}`} className="block">
           {/* Image container with fixed aspect ratio */}
-          <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100 dark:bg-gray-700">
+          <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100 dark:bg-gray-700" style={{ position: 'relative' }}>
             {!isLoaded && (
               <SkeletonImage height="100%" />
             )}

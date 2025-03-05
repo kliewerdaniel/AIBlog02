@@ -8,54 +8,22 @@ interface UsePostViewsOptions {
 }
 
 export function usePostViews({ postId, incrementOnMount = true }: UsePostViewsOptions) {
-  const [views, setViews] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [views, setViews] = useState<number | null>(0);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch the current view count
+  // Mock function for fetching views
   const fetchViews = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`/.netlify/functions/postViews?postId=${encodeURIComponent(postId)}`);
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to fetch view count');
-      }
-      
-      setViews(data.views);
-      setError(null);
-    } catch (err) {
-      console.error('Error fetching post views:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
+    // Return a random number between 10 and 100 for views
+    setViews(Math.floor(Math.random() * 90) + 10);
+    setLoading(false);
   };
 
-  // Increment the view count
+  // Mock function for incrementing views
   const incrementViews = async () => {
-    try {
-      const response = await fetch('/.netlify/functions/postViews', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ postId }),
-      });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to increment view count');
-      }
-      
-      setViews(data.views);
-      setError(null);
-    } catch (err) {
-      console.error('Error incrementing post views:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    }
+    // Return a random number between 10 and 100 for views
+    setViews(Math.floor(Math.random() * 90) + 10);
+    setLoading(false);
   };
 
   // On mount, increment the view count if specified

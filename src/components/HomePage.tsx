@@ -9,59 +9,7 @@ import NewsletterForm from './NewsletterForm';
 import { FadeInOnScroll, ParallaxImage, StickyElement, RevealOnScroll } from './ScrollAnimations';
 import { StaggerContainer, StaggerItem } from './PageTransition';
 import { AnimatedButton, AnimatedCard } from './MicroInteractions';
-
-// Sample data for demonstration
-const featuredPosts = [
-  {
-    id: 1,
-    title: 'The Minimalist Approach to Modern Design',
-    excerpt: 'Exploring how less becomes more in contemporary design philosophy.',
-    date: 'March 5, 2025',
-    category: 'Design',
-    readingTime: '5 min',
-    imageUrl: '/images/blog-1.jpg',
-    isFeatured: true
-  },
-  {
-    id: 2,
-    title: 'Typography Trends for Editorial Websites',
-    excerpt: 'An analysis of font choices that dominate premium publications online.',
-    date: 'March 3, 2025',
-    category: 'Typography',
-    readingTime: '4 min',
-    imageUrl: '/images/blog-1.jpg',
-    isFeatured: false
-  },
-  {
-    id: 3,
-    title: 'Creating Contrast in Monochromatic Interfaces',
-    excerpt: 'How to build visual hierarchy when limited to black and white.',
-    date: 'February 28, 2025',
-    category: 'UI/UX',
-    readingTime: '6 min',
-    imageUrl: '/images/blog-1.jpg',
-    isFeatured: false
-  },
-  {
-    id: 4,
-    title: 'The Psychology of Black and White in Branding',
-    excerpt: 'Understanding the emotional impact of a restricted color palette.',
-    date: 'February 25, 2025',
-    category: 'Branding',
-    readingTime: '7 min',
-    imageUrl: '/images/blog-1.jpg',
-    isFeatured: false
-  }
-];
-
-const categories = [
-  { name: 'Design', count: 12 },
-  { name: 'Typography', count: 8 },
-  { name: 'UI/UX', count: 15 },
-  { name: 'Branding', count: 7 },
-  { name: 'Photography', count: 9 },
-  { name: 'Minimalism', count: 11 }
-];
+import { Post } from '@/lib/markdown';
 
 // Animated text for the blog name
 const AnimatedTypography = () => {
@@ -198,7 +146,36 @@ const CategoryScroller = ({ categories }: CategoryScrollerProps) => {
   );
 };
 
-export default function HomePage() {
+interface HomePageProps {
+  posts: Post[];
+}
+
+export default function HomePage({ posts }: HomePageProps) {
+  // Extract categories from posts
+  const categoriesMap = posts.reduce((acc, post) => {
+    post.tags.forEach(tag => {
+      acc.set(tag, (acc.get(tag) || 0) + 1);
+    });
+    return acc;
+  }, new Map<string, number>());
+  
+  const categories = Array.from(categoriesMap.entries()).map(([name, count]) => ({
+    name,
+    count
+  })).sort((a, b) => b.count - a.count);
+  
+  // Convert posts to the format expected by BlogPostCard
+  const formattedPosts = posts.map((post, index) => ({
+    id: post.id,
+    title: post.title,
+    excerpt: post.excerpt,
+    date: post.date,
+    category: post.tags[0] || 'Uncategorized',
+    readingTime: post.readingTime,
+    imageUrl: post.featuredImage.src,
+    isFeatured: index === 0 // Mark the first post as featured
+  }));
+  
   return (
     <div className="space-y-24 pb-16">
       {/* Hero Section */}
@@ -269,7 +246,7 @@ export default function HomePage() {
         
         <StaggerContainer delay={0.1} staggerDelay={0.15}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredPosts.map((post, index) => (
+            {formattedPosts.slice(0, 4).map((post, index) => (
               <StaggerItem key={post.id} index={index}>
                 <div className={index === 0 ? "md:col-span-2" : ""}>
                   <BlogPostCard {...post} />

@@ -80,7 +80,7 @@ export function ParallaxImage({
   const springY = useSpring(y, { stiffness: 100, damping: 30 });
   
   return (
-    <div ref={ref} className={`relative overflow-hidden ${className}`}>
+    <div ref={ref} className={`relative overflow-hidden ${className}`} style={{ position: 'relative' }}>
       <motion.div 
         className="absolute inset-0 w-full h-full"
         style={{ y: springY }}
