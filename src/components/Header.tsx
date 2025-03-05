@@ -1,40 +1,75 @@
-import Link from 'next/link';
+'use client';
+
 import ThemeToggle from './ThemeToggle';
+import AnimatedLogo from './AnimatedLogo';
+import NavLink from './NavLink';
+import ReadingProgress from './ReadingProgress';
+import { motion } from 'framer-motion';
 
 export default function Header() {
   return (
-    <header className="py-6 border-b border-subtle mb-8">
-      <div className="container flex justify-between items-center">
-        <div>
-          <Link href="/" className="font-serif text-2xl font-bold no-underline hover:text-gray-900 dark:hover:text-gray-50">
-            Monochrome
-          </Link>
-        </div>
-        
-        <div className="flex items-center space-x-8">
-          <nav>
-            <ul className="flex space-x-6">
-              <li>
-                <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50 no-underline">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50 no-underline">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50 no-underline">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </nav>
+    <>
+      <ReadingProgress />
+      <motion.header 
+        className="sticky top-0 z-40 py-4 border-b border-subtle bg-white/90 dark:bg-black/90 backdrop-blur-sm"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      >
+        <div className="container flex justify-between items-center">
+          <div>
+            <a href="/" className="no-underline">
+              <AnimatedLogo />
+            </a>
+          </div>
           
-          <ThemeToggle />
+          <div className="flex items-center space-x-8">
+            <nav>
+              <motion.ul 
+                className="flex space-x-6"
+                initial="initial"
+                animate="animate"
+                variants={{
+                  initial: {},
+                  animate: {
+                    transition: {
+                      staggerChildren: 0.1,
+                      delayChildren: 0.3,
+                    }
+                  }
+                }}
+              >
+                <motion.li
+                  variants={{
+                    initial: { opacity: 0, y: -10 },
+                    animate: { opacity: 1, y: 0 }
+                  }}
+                >
+                  <NavLink href="/">Home</NavLink>
+                </motion.li>
+                <motion.li
+                  variants={{
+                    initial: { opacity: 0, y: -10 },
+                    animate: { opacity: 1, y: 0 }
+                  }}
+                >
+                  <NavLink href="/about">About</NavLink>
+                </motion.li>
+                <motion.li
+                  variants={{
+                    initial: { opacity: 0, y: -10 },
+                    animate: { opacity: 1, y: 0 }
+                  }}
+                >
+                  <NavLink href="/contact">Contact</NavLink>
+                </motion.li>
+              </motion.ul>
+            </nav>
+            
+            <ThemeToggle />
+          </div>
         </div>
-      </div>
-    </header>
+      </motion.header>
+    </>
   );
 }

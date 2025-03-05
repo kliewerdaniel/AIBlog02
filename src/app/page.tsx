@@ -1,87 +1,85 @@
-import Link from 'next/link';
+'use client';
 
-// Data for the blog posts
-const posts = [
-  {
-    id: 1,
-    title: 'The Art of Monochromatic Design',
-    date: 'March 5, 2025',
-    excerpt: 'Exploring how limiting your color palette to black and white can create stunning, timeless designs that communicate with clarity and elegance.',
-  },
-  {
-    id: 2,
-    title: 'Typography in Black & White',
-    date: 'March 7, 2025',
-    excerpt: 'How serif and sans-serif fonts work together to create visual hierarchy and improve readability in monochromatic design systems.',
-  },
-  {
-    id: 3,
-    title: 'Minimalism: Less is More',
-    date: 'March 10, 2025',
-    excerpt: 'The philosophy behind minimalist design and why removing color can actually enhance the user experience by focusing attention on what matters.',
-  },
-];
+import { motion } from 'framer-motion';
+import MotionWrapper from '@/components/MotionWrapper';
 
 export default function Home() {
   return (
     <div className="space-y-16">
-      <div className="border-b border-subtle pb-8">
-        <h1 className="text-5xl font-serif font-bold tracking-tight">Monochrome</h1>
-        <p className="mt-4 text-xl text-gray-600 dark:text-gray-400">
-          A sophisticated black and white blog with elegant typography and smooth animations
-        </p>
-      </div>
-
-      <div className="space-y-16">
-        {posts.map((post) => (
-          <div 
-            key={post.id}
-            className="border-b border-subtle pb-12"
+      <MotionWrapper animation="fade-in">
+        <section className="space-y-6">
+          <motion.h1 
+            className="font-serif text-5xl md:text-6xl font-bold tracking-tight"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <article>
-              <Link href={`/posts/${post.id}`} className="group block">
-                <div className="bg-gray-100 dark:bg-gray-800 aspect-video mb-6 overflow-hidden">
-                  <div className="w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-600 text-lg">
-                    Featured Image Placeholder
-                  </div>
+            Monochrome Blog
+          </motion.h1>
+          
+          <motion.p 
+            className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+          >
+            A sophisticated black and white blog with elegant typography and smooth animations.
+          </motion.p>
+        </section>
+      </MotionWrapper>
+      
+      <MotionWrapper animation="slide-up" delay={0.4}>
+        <section className="space-y-8">
+          <h2 className="font-serif text-3xl md:text-4xl font-semibold">Latest Posts</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[1, 2, 3, 4].map((i) => (
+              <motion.article 
+                key={i}
+                className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700"
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              >
+                <h3 className="font-serif text-xl font-semibold mb-3">Sample Blog Post {i}</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  This is a sample blog post that demonstrates the clean and minimal design of the Monochrome blog.
+                </p>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">March 5, 2025</span>
+                  <motion.a 
+                    href="#" 
+                    className="text-sm font-medium"
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    Read more →
+                  </motion.a>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-serif font-semibold group-hover:text-gray-900 dark:group-hover:text-gray-50 transition-colors duration-200">
-                  {post.title}
-                </h2>
-              </Link>
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{post.date}</p>
-              <p className="mt-4 text-gray-600 dark:text-gray-300">
-                {post.excerpt}
-              </p>
-              <div className="mt-6">
-                <Link 
-                  href={`/posts/${post.id}`} 
-                  className="inline-block px-6 py-2 border border-gray-800 dark:border-gray-200 hover:bg-gray-900 hover:text-gray-50 dark:hover:bg-gray-50 dark:hover:text-gray-900 transition-colors duration-200"
-                >
-                  Read More
-                </Link>
-              </div>
-            </article>
+              </motion.article>
+            ))}
           </div>
-        ))}
-      </div>
-
-      <div className="bg-gray-100 dark:bg-gray-800 p-8 rounded-lg">
-        <h3 className="text-2xl font-serif font-semibold mb-4">Subscribe to the Newsletter</h3>
-        <p className="mb-6 text-gray-600 dark:text-gray-300">
-          Get the latest posts delivered right to your inbox.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-2">
-          <input 
-            type="email" 
-            placeholder="your@email.com" 
-            className="flex-grow px-4 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-600"
-          />
-          <button className="px-6 py-2 bg-gray-900 text-white dark:bg-gray-50 dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-300 transition-colors duration-200">
-            Subscribe
-          </button>
-        </div>
-      </div>
+        </section>
+      </MotionWrapper>
+      
+      <MotionWrapper animation="slide-up" delay={0.6}>
+        <section className="bg-gray-100 dark:bg-gray-800 p-8 md:p-12 rounded-lg">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <h2 className="font-serif text-3xl md:text-4xl font-semibold">About This Blog</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              Monochrome is a premium black and white blog focused on clean design, 
+              typography, and subtle animations. The minimalist approach ensures 
+              content readability while maintaining a sophisticated aesthetic.
+            </p>
+            <motion.a 
+              href="/about" 
+              className="inline-block px-6 py-3 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors duration-200"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Learn More
+            </motion.a>
+          </div>
+        </section>
+      </MotionWrapper>
     </div>
   );
 }
