@@ -106,6 +106,17 @@ a {
   @apply mt-3;
 }
 
+/* Improve text contrast in dark mode */
+.dark .prose p,
+.dark .prose li,
+.dark .text-gray-600 {
+  @apply text-gray-300;
+}
+
+.dark .text-gray-200 {
+  @apply text-gray-100;
+}
+
 /* Code blocks */
 pre {
   @apply bg-gray-100 dark:bg-gray-800 p-4 rounded-md overflow-x-auto;

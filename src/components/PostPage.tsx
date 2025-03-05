@@ -304,21 +304,20 @@ export default function PostPage({ post }: PostProps) {
                 return (
                   <MotionItem key={index} className="mb-8">
                     {section.type === 'paragraph' && (
-                      <p>{section.content}</p>
+                      <p dangerouslySetInnerHTML={{ __html: section.content }} />
                     )}
                     
                     {section.type === 'heading' && (
-                      <h2 id={sectionId}>{section.content}</h2>
+                      <h2 id={sectionId} dangerouslySetInnerHTML={{ __html: section.content }} />
                     )}
                     
                     {section.type === 'subheading' && (
-                      <h3 id={sectionId}>{section.content}</h3>
+                      <h3 id={sectionId} dangerouslySetInnerHTML={{ __html: section.content }} />
                     )}
                     
                     {section.type === 'blockquote' && (
-                      <blockquote className="border-l-4 border-gray-300 dark:border-gray-700 pl-6 italic text-gray-700 dark:text-gray-300 my-8">
-                        {section.content}
-                      </blockquote>
+                      <blockquote className="border-l-4 border-gray-300 dark:border-gray-700 pl-6 italic text-gray-700 dark:text-gray-300 my-8" 
+                        dangerouslySetInnerHTML={{ __html: section.content }} />
                     )}
                     
                     {section.type === 'code' && (
@@ -352,13 +351,13 @@ export default function PostPage({ post }: PostProps) {
                       section.ordered ? (
                         <ol className="list-decimal pl-6 space-y-2">
                           {section.items.map((item, i) => (
-                            <li key={i}>{item}</li>
+                            <li key={i} dangerouslySetInnerHTML={{ __html: item }} />
                           ))}
                         </ol>
                       ) : (
                         <ul className="list-disc pl-6 space-y-2">
                           {section.items.map((item, i) => (
-                            <li key={i}>{item}</li>
+                            <li key={i} dangerouslySetInnerHTML={{ __html: item }} />
                           ))}
                         </ul>
                       )
