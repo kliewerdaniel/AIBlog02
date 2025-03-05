@@ -210,7 +210,7 @@ export default function PostPage({ post }: PostProps) {
           
           {/* Featured image with caption */}
           <FadeInOnScroll className="mb-12" delay={0.2}>
-            <div className="relative aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800">
+            <div className="relative aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800" style={{ position: 'relative' }}>
               {/* Parallax effect for featured image */}
               <ParallaxImage 
                 src={post.featuredImage.src || '/images/placeholder.jpg'} 
