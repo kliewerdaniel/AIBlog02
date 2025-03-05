@@ -41,16 +41,18 @@ export default function BlogCardDemo() {
       
       <div className="mb-12">
         <h2 className="mb-4 font-serif text-2xl font-semibold">Featured Post</h2>
-        <div className="max-w-2xl">
+        <div className="max-w-2xl bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:shadow-xl">
           <BlogPostCard {...posts[0]} />
         </div>
       </div>
       
       <div>
         <h2 className="mb-4 font-serif text-2xl font-semibold">Regular Posts</h2>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
           {posts.slice(1).map((post) => (
-            <BlogPostCard key={post.id} {...post} />
+            <div key={post.id} className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:shadow-xl">
+              <BlogPostCard key={post.id} {...post} />
+            </div>
           ))}
         </div>
       </div>

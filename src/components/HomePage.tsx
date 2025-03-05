@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import BlogPostCard from './BlogPostCard';
 import PostCarousel from './PostCarousel';
-import NewsletterForm from './NewsletterForm';
 import { FadeInOnScroll, ParallaxImage, StickyElement, RevealOnScroll } from './ScrollAnimations';
 import { StaggerContainer, StaggerItem } from './PageTransition';
 import { AnimatedButton, AnimatedCard } from './MicroInteractions';
@@ -275,34 +274,6 @@ export default function HomePage({ posts }: HomePageProps) {
         <CategoryScroller categories={categories} />
       </FadeInOnScroll>
       
-      {/* Newsletter Section */}
-      <FadeInOnScroll className="bg-gray-100 dark:bg-gray-800 p-8 md:p-12 rounded-lg" direction="up">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-8">
-            <RevealOnScroll>
-              <h2 className="font-serif text-3xl md:text-4xl font-semibold mb-4">Stay Updated</h2>
-            </RevealOnScroll>
-            <RevealOnScroll>
-              <p className="text-gray-600 dark:text-gray-400">
-                Subscribe to our newsletter to receive the latest posts and updates.
-              </p>
-            </RevealOnScroll>
-          </div>
-          
-          <div className="max-w-md mx-auto">
-            <NewsletterForm />
-            <motion.p 
-              className="mt-4 text-xs text-gray-500 dark:text-gray-400 text-center"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              We respect your privacy. Unsubscribe at any time.
-            </motion.p>
-          </div>
-        </div>
-      </FadeInOnScroll>
       
       {/* About Section */}
       <FadeInOnScroll className="flex flex-col md:flex-row md:items-center gap-8 md:gap-12" direction="left">

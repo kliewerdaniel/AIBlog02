@@ -236,7 +236,7 @@ export default defineType({
       type: 'boolean',
       group: 'features',
       description: 'Enable newsletter subscription form',
-      initialValue: true,
+      initialValue: false,
     }),
     defineField({
       name: 'enableSearch',

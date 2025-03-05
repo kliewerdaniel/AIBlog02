@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import NewsletterForm from './NewsletterForm';
 import SocialIcons from './SocialIcons';
 import MotionWrapper from './MotionWrapper';
 
@@ -18,7 +17,7 @@ export default function Footer() {
       viewport={{ once: true }}
     >
       <div className="container">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <MotionWrapper animation="slide-up" delay={0.1}>
             <div>
               <h3 className="text-xl font-serif font-semibold mb-4">About</h3>
@@ -67,9 +66,6 @@ export default function Footer() {
             </div>
           </MotionWrapper>
           
-          <MotionWrapper animation="slide-up" delay={0.3}>
-            <NewsletterForm />
-          </MotionWrapper>
         </div>
         
         <motion.div 
