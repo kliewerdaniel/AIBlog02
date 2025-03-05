@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { usePostViews } from '@/hooks/usePostViews';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -81,6 +82,12 @@ export default function PostPage({ post }: PostProps) {
   
   // Generate table of contents
   const tableOfContents = generateTableOfContents(post.content);
+  
+  // Track post views
+  const { views, loading: viewsLoading } = usePostViews({
+    postId: post.id,
+    incrementOnMount: true
+  });
   
   // Update active section based on scroll position
   useEffect(() => {
@@ -188,6 +195,13 @@ export default function PostPage({ post }: PostProps) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     {post.readingTime}
+                  </span>
+                  <span className="flex items-center">
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    {viewsLoading ? '...' : views || 0} {(views === 1) ? 'view' : 'views'}
                   </span>
                 </div>
               </RevealOnScroll>

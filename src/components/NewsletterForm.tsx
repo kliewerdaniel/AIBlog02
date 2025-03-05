@@ -22,16 +22,27 @@ export default function NewsletterForm() {
     setStatus('loading');
     
     try {
-      // In a real application, this would call an API endpoint
-      // For demo purposes, we'll simulate a successful subscription
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Call the Netlify Function
+      const response = await fetch('/.netlify/functions/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
       
       setStatus('success');
       setMessage('Thank you for subscribing!');
       setEmail('');
     } catch (error) {
       setStatus('error');
-      setMessage('An error occurred. Please try again.');
+      setMessage(error instanceof Error ? error.message : 'An error occurred. Please try again.');
     }
   };
 
