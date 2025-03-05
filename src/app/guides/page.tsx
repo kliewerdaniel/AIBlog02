@@ -24,7 +24,7 @@ export default function GuidesPage() {
       title: 'AI-Powered Filename Generator Chrome Extension',
       description: 'This Chrome extension leverages AI to suggest contextually relevant filenames during file downloads or saves. It analyzes the content and proposes descriptive names, enhancing file organization and retrieval efficiency.',
       links: [
-        { type: 'Blog Post', url: '/posts/2025-02-25-Building-an-AI-Powered-Filename-generator-chrome-extension' },
+        { type: 'Blog Post', url: '/posts/Building-an-AI-Powered-Filename-generator-chrome-extension' },
         { type: 'GitHub Repository', url: 'https://github.com/kliewerdaniel/chrome-ai-filename-generator' },
         { type: 'Chrome Web Store', url: 'https://chromewebstore.google.com/detail/ai-filename-generator/eocbkbnabbmclgneeakdbglicbhbimbj' }
       ]
@@ -33,7 +33,7 @@ export default function GuidesPage() {
       title: 'Tech Company Orchestrator',
       description: 'A simulation tool that models the workflow of a tech company by orchestrating various agents to collaboratively process prompts. It generates comprehensive outputs like code, design specifications, and deployment scripts using OpenAI models and NetworkX for directed graph interactions.',
       links: [
-        { type: 'Blog Post', url: '/posts/2024-11-29-Tech-Company-Orchestrator' },
+        { type: 'Blog Post', url: '/posts/Tech-Company-Orchestrator' },
         { type: 'GitHub Repository', url: 'https://github.com/kliewerdaniel/tech-company-orchestrator' }
       ]
     },
@@ -41,7 +41,7 @@ export default function GuidesPage() {
       title: 'PersonaGen',
       description: 'A project focused on enhancing persona management by refactoring a Django-based application. It transitions from storing persona characteristics in a single JSON field to individually modifiable fields, improving flexibility and scalability.',
       links: [
-        { type: 'Blog Post', url: '/posts/2024-12-05-PersonaGen' },
+        { type: 'Blog Post', url: '/posts/PersonaGen' },
         { type: 'GitHub Repository', url: 'https://github.com/kliewerdaniel/personagen' }
       ]
     },
@@ -49,7 +49,7 @@ export default function GuidesPage() {
       title: 'GhostWriter',
       description: 'An open-source AI-powered writing assistant designed to simplify and enhance the writing process across various domains. It offers features like content generation, editing, proofreading, SEO optimization, and collaboration tools.',
       links: [
-        { type: 'Blog Post', url: '/posts/2024-10-24-Ghost-Writer' },
+        { type: 'Blog Post', url: '/posts/Ghost-Writer' },
         { type: 'GitHub Repository', url: 'https://github.com/kliewerdaniel/ghostwriter' }
       ]
     },
@@ -57,7 +57,7 @@ export default function GuidesPage() {
       title: 'Multimodal Story Generation System',
       description: 'A system that transforms visual inputs into structured narratives by combining computer vision and large language models. It generates dynamic, multi-chapter stories from images, featuring components like image analysis, adaptive story generation, and an interactive story graph interface.',
       links: [
-        { type: 'Blog Post', url: '/posts/2025-01-23-Building-a-Multimodal-Story-Generation-system' },
+        { type: 'Blog Post', url: '/posts/Building-a-Multimodal-Story-Generation-system' },
         { type: 'GitHub Repository', url: 'https://github.com/kliewerdaniel/ITB02' }
       ]
     },
@@ -65,7 +65,7 @@ export default function GuidesPage() {
       title: 'PydanticAI-RAG',
       description: "A project that integrates persona-driven data modeling with Retrieval-Augmented Generation (RAG) using Pydantic AI's Agent and Tools APIs. It combines concepts from the PersonaGen07 repository and Pydantic AI to create a system that retrieves context-relevant information and adapts responses based on predefined persona traits.",
       links: [
-        { type: 'Blog Post', url: '/posts/2024-12-09-Pydantic-RAG' },
+        { type: 'Blog Post', url: '/posts/Pydantic-RAG' },
         { type: 'GitHub Repository', url: 'https://github.com/kliewerdaniel/PersonaGen07' }
       ]
     },
@@ -73,7 +73,7 @@ export default function GuidesPage() {
       title: 'RedDiss',
       description: 'An AI-powered diss track generator that transforms Reddit content into personalized diss tracks. Developed for the Loco Local LocalLLaMa Hackathon 1.0, RedDiss combines Reddit data extraction with AI technologies to produce unique audio tracks.',
       links: [
-        { type: 'Blog Post', url: '/posts/2025-02-14-RedDiss' },
+        { type: 'Blog Post', url: '/posts/RedDiss' },
         { type: 'GitHub Repository', url: 'https://github.com/kliewerdaniel/reddiss' }
       ]
     },
@@ -81,7 +81,7 @@ export default function GuidesPage() {
       title: 'Reddit Content Analysis and Blog Generator',
       description: "A tool that analyzes a user's Reddit activity to extract meaningful insights and generate structured blog posts. It processes Reddit engagement—posts, comments, and upvoted content—using AI-driven agents to detect themes, analyze sentiment, and produce cohesive narratives.",
       links: [
-        { type: 'Blog Post', url: '/posts/2025-02-03-Scrape-Reddit-Analysis-Blog' },
+        { type: 'Blog Post', url: '/posts/Scrape-Reddit-Analysis-Blog' },
         { type: 'GitHub Repository', url: 'https://github.com/kliewerdaniel/RedToBlog02' }
       ]
     },
@@ -89,7 +89,7 @@ export default function GuidesPage() {
       title: 'Django-React-Ollama Integration',
       description: 'A full-stack application that integrates Django for the backend and React for the frontend. The application allows users to upload writing samples, analyzes them using an AI language model, and generates blog posts in the style of the uploaded samples.',
       links: [
-        { type: 'Blog Post', url: '/posts/2024-10-22-integrating-django-react-ollama-with-XAi-API' },
+        { type: 'Blog Post', url: '/posts/integrating-django-react-ollama-with-XAi-API' },
         { type: 'GitHub Repository', url: 'https://github.com/kliewerdaniel/Django-React-Ollama-Integration' }
       ]
     },
@@ -97,7 +97,7 @@ export default function GuidesPage() {
       title: 'Image to Book Generator',
       description: 'This project transforms static images into coherent, long-form narratives using modern AI tools. The system combines multimodal perception, recursive context management, and human-in-the-loop editing to create stories that maintain stylistic consistency while evolving organically from a visual seed.',
       links: [
-        { type: 'Blog Post', url: '/posts/2025-01-22-Image-to-Book' },
+        { type: 'Blog Post', url: '/posts/Image-to-Book' },
         { type: 'GitHub Repository', url: 'https://github.com/kliewerdaniel/ITB03' }
       ]
     }
