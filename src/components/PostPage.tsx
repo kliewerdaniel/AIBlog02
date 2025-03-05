@@ -208,27 +208,7 @@ export default function PostPage({ post }: PostProps) {
             </div>
           </FadeInOnScroll>
           
-          {/* Featured image with caption */}
-          <FadeInOnScroll className="mb-12" delay={0.2}>
-            <div className="relative aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800" style={{ position: 'relative' }}>
-              {/* Parallax effect for featured image */}
-              <ParallaxImage 
-                src={post.featuredImage.src || '/images/placeholder.jpg'} 
-                alt={post.featuredImage.alt}
-                strength={50}
-              />
-            </div>
-            {post.featuredImage.caption && (
-              <motion.p 
-                className="text-sm text-gray-500 dark:text-gray-400 mt-2 italic text-center"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-              >
-                {post.featuredImage.caption}
-              </motion.p>
-            )}
-          </FadeInOnScroll>
+              {/* Featured image section removed */}
         </motion.div>
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -322,30 +302,13 @@ export default function PostPage({ post }: PostProps) {
                     
                     {section.type === 'code' && (
                       <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-md overflow-x-auto">
-                        <code className="language-{section.language || 'javascript'}">
+                        <code className="language-{section.language || 'javascript'} text-gray-900 dark:text-gray-100">
                           {section.content}
                         </code>
                       </pre>
                     )}
                     
-                    {section.type === 'image' && section.image && (
-                      <figure className="my-8">
-                        <div className="relative aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800 rounded-md">
-                          {/* Fallback for content images */}
-                          <div className="w-full h-full flex flex-col items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span>{section.image.alt}</span>
-                          </div>
-                        </div>
-                        {section.image.caption && (
-                          <figcaption className="text-sm text-gray-500 dark:text-gray-400 mt-2 italic text-center">
-                            {section.image.caption}
-                          </figcaption>
-                        )}
-                      </figure>
-                    )}
+                    {/* Image section removed */}
                     
                     {section.type === 'list' && section.items && (
                       section.ordered ? (
@@ -381,59 +344,9 @@ export default function PostPage({ post }: PostProps) {
               </div>
             </MotionWrapper>
             
-            {/* Social sharing */}
+            {/* Read More Articles button */}
             <MotionWrapper animation="fade-in" delay={0.3} className="mt-12 pt-8 border-t border-subtle">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                  <h3 className="font-serif text-xl font-semibold">Share this article</h3>
-                  <div className="flex space-x-4 mt-2">
-                    <motion.a 
-                      href="#" 
-                      className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                      </svg>
-                      <span className="sr-only">Twitter</span>
-                    </motion.a>
-                    <motion.a 
-                      href="#" 
-                      className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
-                      </svg>
-                      <span className="sr-only">Facebook</span>
-                    </motion.a>
-                    <motion.a 
-                      href="#" 
-                      className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path fillRule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z" clipRule="evenodd" />
-                      </svg>
-                      <span className="sr-only">YouTube</span>
-                    </motion.a>
-                    <motion.a 
-                      href="#" 
-                      className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-                      </svg>
-                      <span className="sr-only">LinkedIn</span>
-                    </motion.a>
-                  </div>
-                </div>
-                
+              <div className="flex justify-end">
                 <motion.div 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -485,53 +398,6 @@ export default function PostPage({ post }: PostProps) {
               </div>
             </FadeInOnScroll>
         
-            {/* Related posts */}
-            <FadeInOnScroll delay={0.5} className="mt-16 pt-8 border-t border-subtle">
-              <RevealOnScroll>
-                <h3 className="text-2xl font-serif font-semibold mb-8">Related Articles</h3>
-              </RevealOnScroll>
-              <StaggerContainer delay={0.1} staggerDelay={0.15}>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {post.relatedPosts.map((relatedPost, index) => (
-                    <StaggerItem key={relatedPost.id} index={index}>
-                      <AnimatedCard hoverEffect="lift">
-                        <Link href={`/posts/${relatedPost.id}`} className="block">
-                          <div className="aspect-video bg-gray-100 dark:bg-gray-800 mb-4 overflow-hidden">
-                            {relatedPost.image ? (
-                              <motion.div 
-                                className="relative w-full h-full"
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ duration: 0.4 }}
-                              >
-                                <Image
-                                  src={relatedPost.image}
-                                  alt={relatedPost.title}
-                                  fill
-                                  className="object-cover"
-                                />
-                              </motion.div>
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-600">
-                                No Image
-                              </div>
-                            )}
-                          </div>
-                          <h4 className="text-lg font-serif font-semibold mb-2 transition-colors">
-                            {relatedPost.title}
-                          </h4>
-                          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                            {relatedPost.date}
-                          </p>
-                          <p className="text-gray-600 dark:text-gray-300 line-clamp-2">
-                            {relatedPost.excerpt}
-                          </p>
-                        </Link>
-                      </AnimatedCard>
-                    </StaggerItem>
-                  ))}
-                </div>
-              </StaggerContainer>
-            </FadeInOnScroll>
       </article>
     </div>
   );

@@ -3,6 +3,9 @@ layout: post
 title:  Basic AutoGen
 date:   2024-11-28 07:42:44 -0500
 ---
+
+**Summary:** A step-by-step tutorial on creating an AI-powered travel planner using Microsoft's AutoGen framework. The guide walks through setting up the project environment, installing dependencies, and implementing four specialized AI agents: UserAgent (interacts with users to gather preferences), FlightAgent (handles flight booking queries), HotelAgent (manages accommodation booking), and ActivityAgent (suggests activities based on destination). It provides complete Python code examples for each agent and explains how to orchestrate them to collaborate on planning personalized travel itineraries based on user input, with sample interactions demonstrating the system in action.
+
 # Building an AI Travel Planner with AutoGen: A Step-by-Step Guide
 
 This guide will help you create an AI-powered travel planner using Microsoft's AutoGen framework. The application will utilize multiple AI agents to collaborate and plan a personalized travel itinerary based on user preferences. We'll use Python and the AgentChat API of AutoGen to build this system.

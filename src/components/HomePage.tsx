@@ -189,21 +189,22 @@ export default function HomePage({ posts }: HomePageProps) {
   })).sort((a, b) => b.count - a.count);
   
   // Convert posts to the format expected by BlogPostCard
-  const formattedPosts = posts.map((post, index) => ({
-    id: post.id,
-    title: post.title,
-    excerpt: post.excerpt,
-    date: post.date,
-    category: post.tags[0] || 'Uncategorized',
-    readingTime: post.readingTime,
-    imageUrl: post.featuredImage.src,
-    isFeatured: index === 0 // Mark the first post as featured
-  }));
+  const formattedPosts = posts.map((post) => {
+    return {
+      id: post.id,
+      title: post.title,
+      excerpt: post.excerpt.substring(0, 2000), // Fallback excerpt
+      summary: post.excerpt, // Use the summary from summaries.md
+      date: post.date,
+      readingTime: post.readingTime,
+      isFeatured: false // No posts are featured
+    };
+  });
   
   return (
-    <div className="space-y-24 pb-16">
+    <div className="space-y-16 pb-12">
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex flex-col justify-center">
+      <section className="relative min-h-[60vh] flex flex-col justify-center">
         <StaggerContainer delay={0.2} staggerDelay={0.15}>
           <div className="space-y-6">
             {/* Animated Typography for Blog Name */}
@@ -246,19 +247,14 @@ export default function HomePage({ posts }: HomePageProps) {
         </StaggerContainer>
         
         {/* Minimal Illustration */}
-        <div className="mt-12 md:mt-16">
+        <div className="mt-8 md:mt-12">
           <MinimalIllustration />
         </div>
       </section>
       
-      {/* Featured/Recent Posts Section */}
+      {/* Posts Section */}
       <div id="featured">
         <FadeInOnScroll className="space-y-10" threshold={0.1}>
-        <div className="mb-8">
-          <RevealOnScroll>
-            <h2 className="font-serif text-3xl md:text-4xl font-semibold">Featured Articles</h2>
-          </RevealOnScroll>
-        </div>
         
         <RevealOnScroll>
           <PostCarousel posts={formattedPosts} />
@@ -266,17 +262,9 @@ export default function HomePage({ posts }: HomePageProps) {
         </FadeInOnScroll>
       </div>
       
-      {/* Categories Section */}
-      <FadeInOnScroll className="space-y-8" direction="right">
-        <RevealOnScroll>
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold">Categories</h2>
-        </RevealOnScroll>
-        <CategoryScroller categories={categories} />
-      </FadeInOnScroll>
-      
       
       {/* About Section */}
-      <FadeInOnScroll className="flex flex-col md:flex-row md:items-center gap-8 md:gap-12" direction="left">
+      <FadeInOnScroll className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8" direction="left">
         <div className="md:w-1/2">
           <RevealOnScroll>
             <h2 className="font-serif text-3xl md:text-4xl font-semibold mb-4">About Daniel Kliewer</h2>

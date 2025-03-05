@@ -3,6 +3,9 @@ layout: post
 title:  Building a full stack application with Django and React
 date:   2024-10-18 05:40:44 -0500
 ---
+
+**Summary:** A step-by-step technical guide for building a full-stack application using Django for the backend and React for the frontend. The application allows users to upload writing samples, analyzes them using an AI language model, and generates blog posts in the style of the uploaded samples. The guide covers setting up both the backend and frontend, integrating with Ollama for AI capabilities, and implementing features like persona creation and content generation.
+
 # Building a Full-Stack Application with Django and React: A Step-by-Step Guide
 
 In this comprehensive guide, we'll walk through the process of building a full-stack application using Django for the backend and React for the frontend. The application allows users to upload a writing sample, analyzes it using an AI language model, and generates blog posts in the style of the uploaded sample.

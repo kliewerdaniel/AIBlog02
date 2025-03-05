@@ -3,6 +3,9 @@ date: 2024-10-04 07:40:44 -0500
 layout: post
 title: Detailed Description of Insight Journal
 ---
+
+**Summary:** A comprehensive dissertation exploring the development of "Insight Journal," an AI-integrated journaling platform that uses locally hosted Large Language Models (LLMs) to provide personalized feedback on users' written content. The platform aims to enhance personal reflection while maintaining data privacy by processing all information locally. It utilizes open-source technologies like Llama 3.2, Jekyll, Ollama, and Netlify to create a cost-effective, self-hosted solution that emulates insights from diverse perspectives.
+
 # **Developing an AI-Integrated Insight Journal: Enhancing Personal Reflection through Locally Hosted Language Models**
 
 ## **Abstract**

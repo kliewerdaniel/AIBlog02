@@ -2,22 +2,20 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useState } from 'react';
 import { AnimatedCard } from './MicroInteractions';
-import { SkeletonImage } from './LoadingStates';
 
-interface BlogPostCardProps {
-  id: string | number; // Updated to accept both string and number
+interface FullSummaryBlogPostCardProps {
+  id: string | number;
   title: string;
   excerpt: string;
-  summary?: string; // Add optional summary prop
+  summary?: string;
   date: string;
   readingTime: string;
   isFeatured?: boolean;
 }
 
-export default function BlogPostCard({
+export default function FullSummaryBlogPostCard({
   id,
   title,
   excerpt,
@@ -25,8 +23,7 @@ export default function BlogPostCard({
   date,
   readingTime,
   isFeatured = false,
-}: BlogPostCardProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
+}: FullSummaryBlogPostCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -40,21 +37,19 @@ export default function BlogPostCard({
     >
       <AnimatedCard 
         hoverEffect="lift"
-        className="relative overflow-hidden h-full flex flex-col bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+        className="relative overflow-hidden h-full flex flex-col bg-white dark:bg-gray-800"
       >
-
         <Link href={`/posts/${id}`} className="block flex-grow flex flex-col">
-
           {/* Content container */}
-          <div className="p-5 flex-grow flex flex-col">
-          {/* Date */}
-          <div className="mb-2 flex items-center justify-end">
-            <span className="text-sm text-gray-500 dark:text-gray-400">{date}</span>
-          </div>
+          <div className="p-8 flex-grow flex flex-col">
+            {/* Date */}
+            <div className="mb-3 flex items-center justify-end">
+              <span className="text-sm text-gray-500 dark:text-gray-400">{date}</span>
+            </div>
 
             {/* Title */}
             <motion.h3 
-              className="mb-2 font-serif text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 md:text-2xl line-clamp-2 min-h-[3.5rem]"
+              className="mb-3 font-serif text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 md:text-2xl line-clamp-2 min-h-[3.5rem]"
               animate={{ 
                 color: isHovered ? 'var(--accent)' : 'var(--foreground)'
               }}
@@ -63,13 +58,13 @@ export default function BlogPostCard({
               {title}
             </motion.h3>
 
-            {/* Display summary if available, otherwise fall back to excerpt */}
-            <p className="mb-3 text-sm text-gray-600 dark:text-gray-300 md:text-base flex-grow">
+            {/* Display full summary without truncation */}
+            <div className="mb-5 text-sm text-gray-600 dark:text-gray-300 md:text-base flex-grow whitespace-pre-wrap break-words">
               {summary || excerpt}
-            </p>
+            </div>
 
             {/* Reading time */}
-            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
+            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="mr-1 h-4 w-4"

@@ -18,11 +18,11 @@ export default function NavLink({ href, children }: NavLinkProps) {
       href={href}
       isActive={isActive}
       className={isActive 
-        ? 'text-gray-900 dark:text-gray-50' 
-        : 'text-gray-700 dark:text-gray-300'
+        ? 'text-gray-900 dark:text-gray-50 font-medium' 
+        : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50'
       }
       activeClassName="font-medium"
-      underlineEffect="slide"
+      underlineEffect="grow"
     >
       {children}
     </AnimatedLink>

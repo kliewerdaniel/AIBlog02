@@ -3,6 +3,9 @@ layout: post
 title:  Tech Company Orchestrator
 date:   2024-11-29 07:42:44 -0500
 ---
+
+**Summary:** A user guide for the Tech Company Orchestrator, an open-source project that simulates a tech company workflow by orchestrating various AI agents to collaboratively process prompts and generate comprehensive outputs. The guide explains how the system uses OpenAI models and a directed graph (via NetworkX) to model interactions between different departments like Product Management, Design, Engineering, Testing, Security, and DevOps. It provides detailed instructions for installation, usage, customizing agents, and troubleshooting, along with explanations of how the workflow processes prompts through each department to generate code, design specifications, deployment scripts, and other outputs.
+
 # Tech Company Orchestrator - User Guide
 
 [https://github.com/kliewerdaniel/tech-company-orchestrator](https://github.com/kliewerdaniel/tech-company-orchestrator)

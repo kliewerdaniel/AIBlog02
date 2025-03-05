@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { getSummaries } from './summaries';
 
 // Define the content item type
 export type ContentItem = 
@@ -32,6 +33,7 @@ export interface Post {
   date: string;
   readingTime: string;
   excerpt: string;
+  fullSummary?: string; // Add a new field for the full summary
   author: {
     name: string;
     avatar: string;
@@ -340,11 +342,15 @@ export function getAllPosts(): Post[] {
   // Filter out template files and non-markdown files
   const postFilenames = filenames.filter(filename => 
     filename.endsWith('.md') && 
-    !filename.startsWith('_template')
+    !filename.startsWith('_template') &&
+    filename !== 'summaries.md'
   );
   
   // Log the number of posts found for debugging
   console.log(`Found ${postFilenames.length} posts out of ${filenames.length} files in _posts directory`);
+  
+  // Get summaries from summaries.md
+  const summaryMap = getSummaries();
   
   const allPosts = postFilenames.map((filename, index) => {
     try {
@@ -388,6 +394,32 @@ export function getAllPosts(): Post[] {
           ? tags 
           : [];
       
+      // Debug logging
+      console.log(`Post ID: ${id}`);
+      console.log(`Has summary: ${summaryMap.has(id)}`);
+      
+      // Try to find a matching summary
+      let summary = summaryMap.get(id);
+      
+      // If no summary found, try to match by title
+      if (!summary && data.title) {
+        const titleId = data.title
+          .toLowerCase()
+          .replace(/[^\w\s-]/g, '')
+          .replace(/[\s_-]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+        
+        console.log(`Trying title ID: ${titleId}`);
+        console.log(`Has title summary: ${summaryMap.has(titleId)}`);
+        
+        summary = summaryMap.get(titleId);
+      }
+      
+      // Extract summary from content if it exists
+      const summaryMatch = content.match(/\*\*Summary:\*\*\s*([\s\S]*?)(?=\n\n)/) || 
+                           content.match(/\*\*.*?:\*\*\s*([\s\S]*?)(?=\n\n)/);
+      const extractedSummary = summaryMatch ? summaryMatch[1].trim() : null;
+      
       // Create the post object
       const post: Post = {
         id,
@@ -398,14 +430,15 @@ export function getAllPosts(): Post[] {
           day: 'numeric'
         }) : new Date().toLocaleDateString(),
         readingTime: estimateReadingTime(content),
-        excerpt: data.description || content.substring(0, 150) + '...',
+        excerpt: extractedSummary || summary || data.description || content.substring(0, 150) + '...',
+        fullSummary: extractedSummary || summary, // Store the full summary without truncation
         author: {
           name: data.author || 'Anonymous',
           avatar: '/images/avatar-default.jpg',
           bio: data.authorBio || 'Author'
         },
         featuredImage: {
-          src: data.image || '/images/blog-1.jpg',
+          src: data.image || '',
           alt: data.title || 'Blog post image',
           caption: data.imageCaption
         },
@@ -430,7 +463,7 @@ export function getAllPosts(): Post[] {
           bio: 'System'
         },
         featuredImage: {
-          src: '/images/blog-1.jpg',
+          src: '',
           alt: 'Error',
         },
         content: [{
@@ -462,23 +495,11 @@ export function getAllPosts(): Post[] {
       title: sortedPosts[index + 1].title
     } : undefined;
     
-    // Add related posts (3 most recent excluding current post)
-    const relatedPosts = sortedPosts
-      .filter(p => p.id !== post.id)
-      .slice(0, 3)
-      .map(p => ({
-        id: p.id,
-        title: p.title,
-        excerpt: p.excerpt,
-        date: p.date,
-        image: p.featuredImage.src
-      }));
-    
     return {
       ...post,
       nextPost,
       previousPost,
-      relatedPosts
+      relatedPosts: [] // Empty array since related posts are not displayed
     };
   });
   

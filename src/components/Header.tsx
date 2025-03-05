@@ -11,7 +11,7 @@ export default function Header() {
     <>
       <ReadingProgress />
       <motion.header 
-        className="sticky top-0 z-40 py-4 border-b border-subtle bg-white/90 dark:bg-black/90 backdrop-blur-sm"
+        className="sticky top-0 z-40 py-3 border-b border-subtle bg-white/90 dark:bg-black/90 backdrop-blur-sm"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
@@ -26,7 +26,7 @@ export default function Header() {
           <div className="flex items-center space-x-8">
             <nav>
               <motion.ul 
-                className="flex space-x-6"
+                className="flex space-x-4"
                 initial="initial"
                 animate="animate"
                 variants={{
@@ -69,23 +69,7 @@ export default function Header() {
                     animate: { opacity: 1, y: 0 }
                   }}
                 >
-                  <NavLink href="/projects">Projects</NavLink>
-                </motion.li>
-                <motion.li
-                  variants={{
-                    initial: { opacity: 0, y: -10 },
-                    animate: { opacity: 1, y: 0 }
-                  }}
-                >
                   <NavLink href="/guides">Guides</NavLink>
-                </motion.li>
-                <motion.li
-                  variants={{
-                    initial: { opacity: 0, y: -10 },
-                    animate: { opacity: 1, y: 0 }
-                  }}
-                >
-                  <NavLink href="/contact">Contact</NavLink>
                 </motion.li>
               </motion.ul>
             </nav>

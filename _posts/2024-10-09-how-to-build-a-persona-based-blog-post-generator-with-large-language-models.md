@@ -3,6 +3,9 @@ layout: post
 title:  "How to Build a Persona-Based Blog Post Generator Using Large Language Models"
 date:   2024-10-09 05:40:44 -0500
 ---
+
+**Summary:** A detailed tutorial on creating a system that analyzes writing samples, extracts stylistic characteristics, and generates new content in the same style using Large Language Models. The guide walks through setting up a Python script that integrates with Jekyll and LLMs like Llama 3.2, explaining how to analyze writing samples for stylistic and psychological traits, generate content that emulates specific writing styles, and publish the generated content to a blog.
+
 ## How to Build a Persona-Based Blog Post Generator Using Large Language Models
 
 ## Introduction

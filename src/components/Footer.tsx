@@ -10,14 +10,14 @@ export default function Footer() {
 
   return (
     <motion.footer 
-      className="py-16 border-t border-subtle mt-16 bg-gray-50 dark:bg-gray-900"
+      className="py-10 border-t border-subtle mt-12 bg-gray-50 dark:bg-gray-900"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
     >
       <div className="container">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <MotionWrapper animation="slide-up" delay={0.1}>
             <div>
               <h3 className="text-xl font-serif font-semibold mb-4">About</h3>
@@ -48,18 +48,8 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/projects" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50 transition-colors duration-200">
-                    Projects
-                  </Link>
-                </li>
-                <li>
                   <Link href="/guides" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50 transition-colors duration-200">
                     Guides
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50 transition-colors duration-200">
-                    Contact
                   </Link>
                 </li>
               </ul>
@@ -69,7 +59,7 @@ export default function Footer() {
         </div>
         
         <motion.div 
-          className="mt-16 pt-8 border-t border-subtle text-sm text-center text-gray-500 dark:text-gray-400"
+          className="mt-10 pt-6 border-t border-subtle text-sm text-center text-gray-500 dark:text-gray-400"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
