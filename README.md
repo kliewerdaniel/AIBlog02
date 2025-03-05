@@ -1,302 +1,146 @@
-# Blog Backend with Netlify Functions
+# Black & White Blog with Sanity CMS
 
-This project implements backend functionality for a blog using Netlify Functions. It provides serverless API endpoints for newsletter subscriptions, contact form submissions, post view tracking, and search functionality.
+A minimalist black and white blog powered by Next.js and Sanity.io CMS.
 
-## API Endpoints
+## Features
 
-### Newsletter Subscription
+- **Minimalist Black & White Design**: Clean, typography-focused design
+- **Sanity CMS Integration**: Powerful content management with a custom studio
+- **Rich Text Editor**: Advanced editing capabilities for blog posts
+- **Custom Dashboard**: Content metrics and deployment controls
+- **Preview Mode**: Preview content changes before publishing
+- **Image Optimization**: Automatic image optimization with Sanity's image pipeline
+- **Responsive Design**: Looks great on all devices
 
-**Endpoint:** `/.netlify/functions/subscribe`
+## Getting Started
 
-**Method:** POST
+### Prerequisites
 
-**Request Body:**
-```json
-{
-  "email": "user@example.com",
-  "name": "John Doe" // optional
-}
+- Node.js (v16 or later)
+- npm or yarn
+- A Sanity.io account
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/black-white-blog.git
+cd black-white-blog
 ```
 
-**Response:**
-```json
-{
-  "message": "Subscription successful",
-  "email": "user@example.com"
-}
+2. Install dependencies:
+```bash
+npm install
 ```
 
-**Frontend Integration:**
-```typescript
-// Example using the NewsletterForm component
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  
-  try {
-    const response = await fetch('/.netlify/functions/subscribe', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    });
-    
-    const data = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(data.error || 'Something went wrong');
-    }
-    
-    // Handle success
-  } catch (error) {
-    // Handle error
-  }
-};
+3. Create a `.env.local` file in the root directory with your Sanity credentials:
+```
+NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_API_VERSION=2023-05-03
+SANITY_API_TOKEN=your-sanity-api-token
 ```
 
-### Contact Form
-
-**Endpoint:** `/.netlify/functions/contact`
-
-**Method:** POST
-
-**Request Body:**
-```json
-{
-  "name": "John Doe",
-  "email": "user@example.com",
-  "subject": "Inquiry",
-  "message": "Hello, I have a question about..."
-}
+4. Start the development server:
+```bash
+npm run dev
 ```
 
-**Response:**
-```json
-{
-  "message": "Your message has been sent successfully. We will get back to you soon."
-}
-```
+5. Open [http://localhost:3000](http://localhost:3000) to view the blog
+6. Open [http://localhost:3000/studio](http://localhost:3000/studio) to access the Sanity Studio
 
-**Frontend Integration:**
-```typescript
-// Example using the ContactForm component
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  
-  try {
-    const response = await fetch('/.netlify/functions/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-    
-    const data = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(data.error || 'Something went wrong');
-    }
-    
-    // Handle success
-  } catch (error) {
-    // Handle error
-  }
-};
-```
+## Sanity Studio
 
-### Post Views
+The Sanity Studio is accessible at `/studio` and includes:
 
-**Endpoint:** `/.netlify/functions/postViews`
+### Content Types
 
-**Methods:** 
-- POST (increment view count)
-- GET (retrieve view count)
+- **Blog Posts**: Create and manage blog posts with rich text content
+- **Authors**: Manage author profiles with bio and social links
+- **Categories**: Organize content with customizable categories
+- **Site Settings**: Configure global site settings
 
-**POST Request Body:**
-```json
-{
-  "postId": "post-slug-or-id"
-}
-```
+### Custom Features
 
-**GET Request Parameters:**
-- `postId`: The ID or slug of the post
+- **Content Metrics Dashboard**: View content statistics at a glance
+- **Custom Color Input**: Visual color picker for categories and theme settings
+- **Preview Mode**: Preview content changes before publishing
+- **Image Hotspot Control**: Control focal points for responsive images
 
-**Response:**
-```json
-{
-  "postId": "post-slug-or-id",
-  "views": 42
-}
-```
+## Content Structure
 
-**Frontend Integration:**
-```typescript
-// Example using the usePostViews hook
-import { usePostViews } from '@/hooks/usePostViews';
+### Blog Posts
+- Title
+- Slug
+- Author
+- Main Image
+- Categories
+- Publication Date
+- Excerpt
+- Body Content (Rich Text)
+- SEO Settings
+- Related Posts
 
-function PostComponent({ postId }) {
-  const { views, loading, error } = usePostViews({
-    postId,
-    incrementOnMount: true // Automatically increment view count when component mounts
-  });
-  
-  return (
-    <div>
-      <p>{loading ? 'Loading...' : `${views} views`}</p>
-    </div>
-  );
-}
-```
+### Authors
+- Name
+- Slug
+- Image
+- Bio
+- Role
+- Email
+- Social Media Links
 
-### Search
+### Categories
+- Title
+- Slug
+- Description
+- Color (with custom color picker)
+- Icon
+- Featured Status
+- Display Order
 
-**Endpoint:** `/.netlify/functions/search`
+### Site Settings
+- Site Title & Description
+- Logo & Favicon
+- Navigation Menus
+- Footer Content
+- Social Media Links
+- SEO Settings
+- Feature Toggles
+- Theme Settings
 
-**Method:** GET
+## Development
 
-**Request Parameters:**
-- `q`: Search query
-- `tag`: Filter by tag (optional)
-- `limit`: Maximum number of results to return (default: 10)
+### Project Structure
 
-**Response:**
-```json
-{
-  "query": "nextjs",
-  "tag": "javascript",
-  "count": 2,
-  "results": [
-    {
-      "id": "getting-started-with-nextjs",
-      "title": "Getting Started with Next.js",
-      "excerpt": "Learn how to build modern web applications with Next.js",
-      "date": "2025-02-15",
-      "url": "/posts/getting-started-with-nextjs",
-      "relevance": 5
-    },
-    {
-      "id": "nextjs-vs-gatsby",
-      "title": "Next.js vs Gatsby: Which One to Choose?",
-      "excerpt": "A comparison of two popular React frameworks",
-      "date": "2025-01-20",
-      "url": "/posts/nextjs-vs-gatsby",
-      "relevance": 3
-    }
-  ]
-}
-```
+- `/src/app`: Next.js app router pages
+- `/src/components`: React components
+- `/src/lib`: Utility functions and configuration
+- `/src/lib/schemas`: Sanity schema definitions
+- `/src/lib/components`: Custom Sanity input components
+- `/src/lib/dashboard`: Custom Sanity dashboard widgets
 
-**Frontend Integration:**
-```typescript
-// Example using the SearchBar component
-const performSearch = async (query: string) => {
-  try {
-    const response = await fetch(
-      `/.netlify/functions/search?q=${encodeURIComponent(query)}&limit=5`
-    );
-    
-    const data = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(data.error || 'Search failed');
-    }
-    
-    // Process search results
-    setResults(data.results);
-  } catch (error) {
-    // Handle error
-  }
-};
-```
+### Key Files
 
-## Security Features
-
-### Rate Limiting
-
-The API endpoints implement rate limiting to prevent abuse:
-
-- Newsletter subscription: 5 requests per minute per IP
-- Contact form: 3 requests per 5 minutes per IP
-- Post views: 10 requests per minute per IP
-- Search: 20 requests per minute per IP
-
-### CORS Configuration
-
-CORS is configured to allow requests only from specified origins. The allowed origins are defined in the `.env.local` file:
-
-```
-CORS_ALLOWED_ORIGIN=http://localhost:3000,https://yourblog.com
-```
-
-### Input Validation
-
-All API endpoints implement input validation to ensure that the data received is in the expected format:
-
-- Email validation using regex
-- Required field validation
-- Request body parsing and validation
-
-## Environment Variables
-
-Create a `.env.local` file in the root of your project with the following variables:
-
-```
-# Newsletter Service API Keys
-NEWSLETTER_API_KEY=your_newsletter_api_key_here
-NEWSLETTER_LIST_ID=your_newsletter_list_id_here
-
-# Email Service API Keys (for contact form)
-EMAIL_API_KEY=your_email_api_key_here
-CONTACT_EMAIL=your_contact_email@example.com
-
-# Database Connection (for post views)
-MONGODB_URI=your_mongodb_connection_string_here
-
-# Search Service API Keys
-SEARCH_API_KEY=your_search_api_key_here
-SEARCH_APP_ID=your_search_app_id_here
-SEARCH_INDEX_NAME=your_search_index_name_here
-
-# Security
-CORS_ALLOWED_ORIGIN=http://localhost:3000,https://yourblog.com
-```
-
-## Local Development
-
-1. Install dependencies:
-   ```
-   npm install
-   ```
-
-2. Start the development server:
-   ```
-   npm run dev
-   ```
-
-3. The Netlify Functions will be available at `http://localhost:3000/.netlify/functions/[function-name]`
+- `src/lib/sanity.config.ts`: Sanity studio configuration
+- `src/lib/sanity.client.ts`: Sanity client and GROQ queries
+- `src/app/studio/[[...index]]/page.tsx`: Sanity studio entry point
+- `src/app/api/preview/route.ts`: Preview mode API route
 
 ## Deployment
 
-1. Push your code to a Git repository.
+### Next.js Frontend
 
-2. Connect your repository to Netlify.
+Deploy the Next.js frontend to Vercel or Netlify:
 
-3. Configure the environment variables in the Netlify dashboard.
+```bash
+npm run build
+```
 
-4. Deploy your site.
+### Sanity Studio
 
-## Production Considerations
+The Sanity Studio is deployed with the Next.js app at the `/studio` route.
 
-For a production environment, consider the following:
+## License
 
-1. **Database Integration**: Replace the in-memory storage with a proper database like MongoDB, Fauna, or Supabase.
-
-2. **Email Service Integration**: Integrate with an email service like SendGrid, Mailgun, or AWS SES for the contact form and newsletter subscription.
-
-3. **Search Service Integration**: For more advanced search capabilities, integrate with a search service like Algolia, Elasticsearch, or MeiliSearch.
-
-4. **Monitoring and Logging**: Add proper monitoring and logging to track API usage and errors.
-
-5. **Authentication**: Add authentication for admin-only endpoints.
+This project is licensed under the MIT License - see the LICENSE file for details.
