@@ -32,7 +32,7 @@ const components = {
     code: ({ value }: any) => {
       return (
         <pre className="my-4 overflow-x-auto rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
-          <code className="text-sm font-mono">
+          <code className="text-sm font-mono text-gray-900 dark:text-gray-100">
             {value.code}
           </code>
           {value.filename && (

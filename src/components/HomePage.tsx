@@ -202,9 +202,9 @@ export default function HomePage({ posts }: HomePageProps) {
   });
   
   return (
-    <div className="space-y-24 pb-16">
+    <div className="space-y-16 pb-12">
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex flex-col justify-center">
+      <section className="relative min-h-[60vh] flex flex-col justify-center">
         <StaggerContainer delay={0.2} staggerDelay={0.15}>
           <div className="space-y-6">
             {/* Animated Typography for Blog Name */}
@@ -247,7 +247,7 @@ export default function HomePage({ posts }: HomePageProps) {
         </StaggerContainer>
         
         {/* Minimal Illustration */}
-        <div className="mt-12 md:mt-16">
+        <div className="mt-8 md:mt-12">
           <MinimalIllustration />
         </div>
       </section>
@@ -264,7 +264,7 @@ export default function HomePage({ posts }: HomePageProps) {
       
       
       {/* About Section */}
-      <FadeInOnScroll className="flex flex-col md:flex-row md:items-center gap-8 md:gap-12" direction="left">
+      <FadeInOnScroll className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8" direction="left">
         <div className="md:w-1/2">
           <RevealOnScroll>
             <h2 className="font-serif text-3xl md:text-4xl font-semibold mb-4">About Daniel Kliewer</h2>

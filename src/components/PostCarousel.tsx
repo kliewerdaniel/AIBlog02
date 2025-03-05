@@ -114,7 +114,7 @@ export default function PostCarousel({ posts }: PostCarouselProps) {
         {posts.map((post, index) => (
           <div
             key={post.id}
-            className="flex-shrink-0 w-full p-4"
+            className="flex-shrink-0 w-full p-2"
           >
             <BlogPostCard {...post} />
           </div>

@@ -40,21 +40,21 @@ export default function BlogPostCard({
     >
       <AnimatedCard 
         hoverEffect="lift"
-        className="relative overflow-hidden h-full flex flex-col bg-white dark:bg-gray-800"
+        className="relative overflow-hidden h-full flex flex-col bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
       >
 
         <Link href={`/posts/${id}`} className="block flex-grow flex flex-col">
 
           {/* Content container */}
-          <div className="p-8 flex-grow flex flex-col">
+          <div className="p-5 flex-grow flex flex-col">
           {/* Date */}
-          <div className="mb-3 flex items-center justify-end">
+          <div className="mb-2 flex items-center justify-end">
             <span className="text-sm text-gray-500 dark:text-gray-400">{date}</span>
           </div>
 
             {/* Title */}
             <motion.h3 
-              className="mb-3 font-serif text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 md:text-2xl line-clamp-2 min-h-[3.5rem]"
+              className="mb-2 font-serif text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 md:text-2xl line-clamp-2 min-h-[3.5rem]"
               animate={{ 
                 color: isHovered ? 'var(--accent)' : 'var(--foreground)'
               }}
@@ -64,12 +64,12 @@ export default function BlogPostCard({
             </motion.h3>
 
             {/* Display summary if available, otherwise fall back to excerpt */}
-            <p className="mb-5 text-sm text-gray-600 dark:text-gray-300 md:text-base flex-grow">
+            <p className="mb-3 text-sm text-gray-600 dark:text-gray-300 md:text-base flex-grow">
               {summary || excerpt}
             </p>
 
             {/* Reading time */}
-            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="mr-1 h-4 w-4"

@@ -302,7 +302,7 @@ export default function PostPage({ post }: PostProps) {
                     
                     {section.type === 'code' && (
                       <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-md overflow-x-auto">
-                        <code className="language-{section.language || 'javascript'}">
+                        <code className="language-{section.language || 'javascript'} text-gray-900 dark:text-gray-100">
                           {section.content}
                         </code>
                       </pre>
