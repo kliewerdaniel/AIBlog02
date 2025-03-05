@@ -6,7 +6,7 @@ import ClientThemeProvider from '@/components/ClientThemeProvider';
 
 export const metadata: Metadata = {
   title: 'Monochrome Blog',
-  description: 'A sophisticated black and white blog with elegant typography and smooth animations',
+  description: 'A sophisticated black and white blog with elegant typography and smooth animations'
 };
 
 export default function RootLayout({
