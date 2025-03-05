@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import BlogPostCard from './BlogPostCard';
+import PostCarousel from './PostCarousel';
 import NewsletterForm from './NewsletterForm';
 import { FadeInOnScroll, ParallaxImage, StickyElement, RevealOnScroll } from './ScrollAnimations';
 import { StaggerContainer, StaggerItem } from './PageTransition';
@@ -254,7 +255,7 @@ export default function HomePage({ posts }: HomePageProps) {
       {/* Featured/Recent Posts Section */}
       <div id="featured">
         <FadeInOnScroll className="space-y-10" threshold={0.1}>
-        <div className="flex justify-between items-end">
+        <div className="flex justify-between items-end mb-8">
           <RevealOnScroll>
             <h2 className="font-serif text-3xl md:text-4xl font-semibold">Featured Articles</h2>
           </RevealOnScroll>
@@ -268,17 +269,9 @@ export default function HomePage({ posts }: HomePageProps) {
           </RevealOnScroll>
         </div>
         
-        <StaggerContainer delay={0.1} staggerDelay={0.15}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {formattedPosts.slice(0, 4).map((post, index) => (
-              <StaggerItem key={post.id} index={index}>
-                <div className={index === 0 ? "md:col-span-2" : ""}>
-                  <BlogPostCard {...post} />
-                </div>
-              </StaggerItem>
-            ))}
-          </div>
-        </StaggerContainer>
+        <RevealOnScroll>
+          <PostCarousel posts={formattedPosts} />
+        </RevealOnScroll>
         </FadeInOnScroll>
       </div>
       
