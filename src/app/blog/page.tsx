@@ -12,16 +12,33 @@ export default function BlogPage() {
   const posts = getAllPosts();
   
   // Convert posts to the format expected by BlogPostCard
-  const formattedPosts = posts.map((post, index) => ({
-    id: post.id,
-    title: post.title,
-    excerpt: post.excerpt,
-    date: post.date,
-    category: post.tags[0] || 'Uncategorized',
-    readingTime: post.readingTime,
-    imageUrl: post.featuredImage.src,
-    isFeatured: index === 0 // Mark the first post as featured
-  }));
+  const formattedPosts = posts.map((post, index) => {
+    // Get more content for the excerpt
+    let extendedExcerpt = post.excerpt;
+    
+    // If there's content, try to get more text from the first few paragraphs
+    if (post.content && post.content.length > 0) {
+      const paragraphs = post.content.filter(item => item.type === 'paragraph');
+      if (paragraphs.length > 0) {
+        // Use the first paragraph or two for a longer excerpt
+        const contentText = paragraphs.slice(0, 2).map(p => p.content).join(' ');
+        if (contentText.length > 0) {
+          extendedExcerpt = contentText.length > 300 
+            ? contentText.substring(0, 300) + '...' 
+            : contentText;
+        }
+      }
+    }
+    
+    return {
+      id: post.id,
+      title: post.title,
+      excerpt: extendedExcerpt,
+      date: post.date,
+      readingTime: post.readingTime,
+      isFeatured: index === 0 // Mark the first post as featured
+    };
+  });
   
   return (
     <div className="space-y-16 pb-16 bg-gray-50 dark:bg-gray-900">

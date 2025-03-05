@@ -10,9 +10,7 @@ interface Post {
   title: string;
   excerpt: string;
   date: string;
-  category: string;
   readingTime: string;
-  imageUrl?: string;
   isFeatured?: boolean;
 }
 
@@ -39,26 +37,9 @@ export default function PostCarousel({ posts }: PostCarouselProps) {
     return () => window.removeEventListener('resize', updateWidth);
   }, []);
 
-  // Use a fixed value for server-side rendering to avoid hydration mismatch
-  const [itemsPerSlide, setItemsPerSlide] = useState(3);
-  const totalSlides = Math.ceil(posts.length / itemsPerSlide);
-  
-  // Update items per slide based on window width after initial render
-  useEffect(() => {
-    const updateItemsPerSlide = () => {
-      if (window.innerWidth < 768) {
-        setItemsPerSlide(1); // Mobile: 1 post
-      } else if (window.innerWidth < 1024) {
-        setItemsPerSlide(2); // Tablet: 2 posts
-      } else {
-        setItemsPerSlide(3); // Desktop: 3 posts
-      }
-    };
-    
-    updateItemsPerSlide();
-    window.addEventListener('resize', updateItemsPerSlide);
-    return () => window.removeEventListener('resize', updateItemsPerSlide);
-  }, []);
+  // Always show one post per slide
+  const itemsPerSlide = 1;
+  const totalSlides = posts.length;
 
   // Handle next slide
   const nextSlide = () => {
@@ -132,11 +113,15 @@ export default function PostCarousel({ posts }: PostCarouselProps) {
         className="flex"
         animate={controls}
         initial={{ x: 0 }}
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.1}
+        onDragEnd={handleDragEnd}
       >
         {posts.map((post, index) => (
           <div
             key={post.id}
-            className="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 p-4"
+            className="flex-shrink-0 w-full p-4"
           >
             <BlogPostCard {...post} />
           </div>

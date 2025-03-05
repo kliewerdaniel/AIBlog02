@@ -12,9 +12,7 @@ interface BlogPostCardProps {
   title: string;
   excerpt: string;
   date: string;
-  category: string;
   readingTime: string;
-  imageUrl?: string;
   isFeatured?: boolean;
 }
 
@@ -23,9 +21,7 @@ export default function BlogPostCard({
   title,
   excerpt,
   date,
-  category,
   readingTime,
-  imageUrl = '/images/placeholder.jpg',
   isFeatured = false,
 }: BlogPostCardProps) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -59,47 +55,13 @@ export default function BlogPostCard({
         )}
 
         <Link href={`/posts/${id}`} className="block flex-grow flex flex-col">
-          {/* Image container with fixed aspect ratio */}
-          <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100 dark:bg-gray-700" style={{ position: 'relative' }}>
-            {!isLoaded && (
-              <SkeletonImage height="100%" />
-            )}
-            
-            {imageUrl && (
-              <motion.div
-                animate={{ 
-                  scale: isHovered ? 1.05 : 1
-                }}
-                transition={{ duration: 0.4 }}
-                className="h-full w-full"
-                style={{ position: 'relative' }}
-              >
-                <Image
-                  src={imageUrl}
-                  alt={title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover"
-                  onLoad={() => setIsLoaded(true)}
-                  priority={isFeatured}
-                />
-              </motion.div>
-            )}
-          </div>
 
           {/* Content container */}
           <div className="p-8 flex-grow flex flex-col">
-            {/* Category and date */}
-            <div className="mb-3 flex items-center justify-between">
-              <motion.span 
-                className="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300"
-                whileHover={{ backgroundColor: 'var(--accent-light)', color: 'var(--accent)' }}
-                transition={{ duration: 0.2 }}
-              >
-                {category}
-              </motion.span>
-              <span className="text-sm text-gray-500 dark:text-gray-400">{date}</span>
-            </div>
+          {/* Date */}
+          <div className="mb-3 flex items-center justify-end">
+            <span className="text-sm text-gray-500 dark:text-gray-400">{date}</span>
+          </div>
 
             {/* Title */}
             <motion.h3 
@@ -112,8 +74,8 @@ export default function BlogPostCard({
               {title}
             </motion.h3>
 
-            {/* Excerpt */}
-            <p className="mb-5 text-sm text-gray-600 dark:text-gray-300 md:text-base line-clamp-4 flex-grow">
+            {/* Excerpt - increased line clamp from 4 to 8 for more text */}
+            <p className="mb-5 text-sm text-gray-600 dark:text-gray-300 md:text-base line-clamp-8 flex-grow">
               {excerpt}
             </p>
 
