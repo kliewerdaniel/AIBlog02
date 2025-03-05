@@ -64,7 +64,7 @@ export default function BlogPostCard({
             </motion.h3>
 
             {/* Display summary if available, otherwise fall back to excerpt */}
-            <p className="mb-5 text-sm text-gray-600 dark:text-gray-300 md:text-base line-clamp-8 flex-grow">
+            <p className="mb-5 text-sm text-gray-600 dark:text-gray-300 md:text-base flex-grow">
               {summary || excerpt}
             </p>
 

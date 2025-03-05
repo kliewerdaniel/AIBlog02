@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FadeInOnScroll, RevealOnScroll } from '@/components/ScrollAnimations';
 import { StaggerContainer, StaggerItem } from '@/components/PageTransition';
-import BlogPostCard from '@/components/BlogPostCard';
+import FullSummaryBlogPostCard from '@/components/FullSummaryBlogPostCard';
 
 // Mark as server component
 export const dynamic = 'force-static';
@@ -13,19 +13,11 @@ export default function BlogPage() {
   
   // Convert posts to the format expected by BlogPostCard
   const formattedPosts = posts.map((post) => {
-    // Extract summary from post content if it exists
-    let summary = '';
-    const summaryMatch = post.excerpt.match(/\*\*Summary:\*\*\s*([\s\S]{1,500})/);
-    if (summaryMatch && summaryMatch[1]) {
-      summary = summaryMatch[1].substring(0, 500);
-      if (summaryMatch[1].length > 500) summary += '...';
-    }
-
     return {
       id: post.id,
       title: post.title,
-      excerpt: post.excerpt.substring(0, 500) + '...', // Fallback excerpt
-      summary: summary, // Add the extracted summary
+      excerpt: post.excerpt, // Use the full excerpt without truncation
+      summary: post.excerpt, // Use the full excerpt without truncation
       date: post.date,
       readingTime: post.readingTime,
       isFeatured: false // No posts are featured
@@ -56,7 +48,7 @@ export default function BlogPage() {
         <div className="space-y-16">
           {formattedPosts.map((post) => (
             <div key={post.id} className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:shadow-xl">
-              <BlogPostCard {...post} />
+              <FullSummaryBlogPostCard {...post} />
             </div>
           ))}
         </div>

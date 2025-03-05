@@ -9,7 +9,7 @@ interface Post {
   id: string | number;
   title: string;
   excerpt: string;
-  summary?: string;
+  summary: string;
   date: string;
   readingTime: string;
   isFeatured?: boolean;

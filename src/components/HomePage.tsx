@@ -190,19 +190,11 @@ export default function HomePage({ posts }: HomePageProps) {
   
   // Convert posts to the format expected by BlogPostCard
   const formattedPosts = posts.map((post) => {
-    // Extract summary from post content if it exists
-    let summary = '';
-    const summaryMatch = post.excerpt.match(/\*\*Summary:\*\*\s*([\s\S]{1,500})/);
-    if (summaryMatch && summaryMatch[1]) {
-      summary = summaryMatch[1].substring(0, 500);
-      if (summaryMatch[1].length > 500) summary += '...';
-    }
-
     return {
       id: post.id,
       title: post.title,
-      excerpt: post.excerpt.substring(0, 500) + '...', // Fallback excerpt
-      summary: summary, // Add the extracted summary
+      excerpt: post.excerpt.substring(0, 2000), // Fallback excerpt
+      summary: post.excerpt, // Use the summary from summaries.md
       date: post.date,
       readingTime: post.readingTime,
       isFeatured: false // No posts are featured
