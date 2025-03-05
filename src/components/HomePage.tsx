@@ -255,17 +255,9 @@ export default function HomePage({ posts }: HomePageProps) {
       {/* Featured/Recent Posts Section */}
       <div id="featured">
         <FadeInOnScroll className="space-y-10" threshold={0.1}>
-        <div className="flex justify-between items-end mb-8">
+        <div className="mb-8">
           <RevealOnScroll>
             <h2 className="font-serif text-3xl md:text-4xl font-semibold">Featured Articles</h2>
-          </RevealOnScroll>
-          <RevealOnScroll>
-            <Link 
-              href="/blog" 
-              className="text-sm font-medium hover:underline"
-            >
-              View All
-            </Link>
           </RevealOnScroll>
         </div>
         

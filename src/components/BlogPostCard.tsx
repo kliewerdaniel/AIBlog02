@@ -112,7 +112,7 @@ export default function BlogPostCard({
             </motion.h3>
 
             {/* Excerpt */}
-            <p className="mb-4 text-sm text-gray-600 dark:text-gray-200 md:text-base line-clamp-3 flex-grow">
+            <p className="mb-4 text-sm text-gray-600 dark:text-gray-100 md:text-base line-clamp-3 flex-grow">
               {excerpt}
             </p>
 
