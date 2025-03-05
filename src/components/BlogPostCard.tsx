@@ -38,10 +38,11 @@ export default function BlogPostCard({
       transition={{ duration: 0.5 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      className="h-full"
     >
       <AnimatedCard 
         hoverEffect="lift"
-        className={`relative overflow-hidden ${
+        className={`relative overflow-hidden h-full flex flex-col bg-white dark:bg-gray-800 ${
           isFeatured ? 'ring-2 ring-gray-900 dark:ring-gray-100' : ''
         }`}
       >
@@ -57,7 +58,7 @@ export default function BlogPostCard({
           </motion.div>
         )}
 
-        <Link href={`/posts/${id}`} className="block">
+        <Link href={`/posts/${id}`} className="block flex-grow flex flex-col">
           {/* Image container with fixed aspect ratio */}
           <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100 dark:bg-gray-700" style={{ position: 'relative' }}>
             {!isLoaded && (
@@ -71,6 +72,7 @@ export default function BlogPostCard({
                 }}
                 transition={{ duration: 0.4 }}
                 className="h-full w-full"
+                style={{ position: 'relative' }}
               >
                 <Image
                   src={imageUrl}
@@ -86,7 +88,7 @@ export default function BlogPostCard({
           </div>
 
           {/* Content container */}
-          <div className="p-6">
+          <div className="p-6 flex-grow flex flex-col">
             {/* Category and date */}
             <div className="mb-2 flex items-center justify-between">
               <motion.span 
@@ -100,7 +102,7 @@ export default function BlogPostCard({
 
             {/* Title */}
             <motion.h3 
-              className="mb-2 font-serif text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 md:text-2xl"
+              className="mb-2 font-serif text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 md:text-2xl line-clamp-2 min-h-[3.5rem]"
               animate={{ 
                 color: isHovered ? 'var(--accent)' : 'var(--foreground)'
               }}
@@ -110,7 +112,7 @@ export default function BlogPostCard({
             </motion.h3>
 
             {/* Excerpt */}
-            <p className="mb-4 text-sm text-gray-600 dark:text-gray-300 md:text-base">
+            <p className="mb-4 text-sm text-gray-600 dark:text-gray-100 md:text-base line-clamp-3 flex-grow">
               {excerpt}
             </p>
 

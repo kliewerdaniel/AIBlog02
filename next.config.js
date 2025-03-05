@@ -3,7 +3,17 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['images.unsplash.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
+  },
+  // Disable automatic favicon generation
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false };
+    return config;
   },
 }
 

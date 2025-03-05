@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import BlogPostCard from './BlogPostCard';
+import PostCarousel from './PostCarousel';
 import NewsletterForm from './NewsletterForm';
 import { FadeInOnScroll, ParallaxImage, StickyElement, RevealOnScroll } from './ScrollAnimations';
 import { StaggerContainer, StaggerItem } from './PageTransition';
@@ -13,30 +14,54 @@ import { Post } from '@/lib/markdown';
 
 // Animated text for the blog name
 const AnimatedTypography = () => {
-  const letters = "MONOCHROME".split('');
+  const firstName = "DANIEL".split('');
+  const lastName = "KLIEWER".split('');
   
   return (
-    <h1 className="font-serif text-6xl md:text-7xl font-bold tracking-tight flex flex-wrap">
-      {letters.map((letter, index) => (
-        <motion.span
-          key={index}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ 
-            duration: 0.5, 
-            delay: index * 0.1,
-            ease: "easeOut"
-          }}
-          whileHover={{ 
-            scale: 1.1, 
-            transition: { duration: 0.2 } 
-          }}
-          className="inline-block"
-        >
-          {letter}
-        </motion.span>
-      ))}
-    </h1>
+    <div className="font-serif text-6xl md:text-7xl font-bold tracking-tight flex flex-col">
+      <div className="flex flex-wrap">
+        {firstName.map((letter, index) => (
+          <motion.span
+            key={`first-${index}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              duration: 0.5, 
+              delay: index * 0.1,
+              ease: "easeOut"
+            }}
+            whileHover={{ 
+              scale: 1.1, 
+              transition: { duration: 0.2 } 
+            }}
+            className="inline-block"
+          >
+            {letter}
+          </motion.span>
+        ))}
+      </div>
+      <div className="flex flex-wrap">
+        {lastName.map((letter, index) => (
+          <motion.span
+            key={`last-${index}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              duration: 0.5, 
+              delay: 0.6 + (index * 0.1),
+              ease: "easeOut"
+            }}
+            whileHover={{ 
+              scale: 1.1, 
+              transition: { duration: 0.2 } 
+            }}
+            className="inline-block"
+          >
+            {letter}
+          </motion.span>
+        ))}
+      </div>
+    </div>
   );
 };
 
@@ -195,8 +220,8 @@ export default function HomePage({ posts }: HomePageProps) {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8 }}
               >
-                A premium editorial experience focused on typography, 
-                white space, and the beauty of minimalism.
+                A programming blog covering web development, data annotation, 
+                and the intersection of technology and creativity.
               </motion.p>
             </StaggerItem>
             
@@ -230,31 +255,15 @@ export default function HomePage({ posts }: HomePageProps) {
       {/* Featured/Recent Posts Section */}
       <div id="featured">
         <FadeInOnScroll className="space-y-10" threshold={0.1}>
-        <div className="flex justify-between items-end">
+        <div className="mb-8">
           <RevealOnScroll>
             <h2 className="font-serif text-3xl md:text-4xl font-semibold">Featured Articles</h2>
           </RevealOnScroll>
-          <RevealOnScroll>
-            <Link 
-              href="/archive" 
-              className="text-sm font-medium hover:underline"
-            >
-              View All
-            </Link>
-          </RevealOnScroll>
         </div>
         
-        <StaggerContainer delay={0.1} staggerDelay={0.15}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {formattedPosts.slice(0, 4).map((post, index) => (
-              <StaggerItem key={post.id} index={index}>
-                <div className={index === 0 ? "md:col-span-2" : ""}>
-                  <BlogPostCard {...post} />
-                </div>
-              </StaggerItem>
-            ))}
-          </div>
-        </StaggerContainer>
+        <RevealOnScroll>
+          <PostCarousel posts={formattedPosts} />
+        </RevealOnScroll>
         </FadeInOnScroll>
       </div>
       
@@ -299,13 +308,13 @@ export default function HomePage({ posts }: HomePageProps) {
       <FadeInOnScroll className="flex flex-col md:flex-row md:items-center gap-8 md:gap-12" direction="left">
         <div className="md:w-1/2">
           <RevealOnScroll>
-            <h2 className="font-serif text-3xl md:text-4xl font-semibold mb-4">About Monochrome</h2>
+            <h2 className="font-serif text-3xl md:text-4xl font-semibold mb-4">About Daniel Kliewer</h2>
           </RevealOnScroll>
           <RevealOnScroll>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Monochrome is a premium blog dedicated to the beauty of simplicity. 
-              We explore design, typography, and minimalism through thoughtful articles 
-              and visual storytelling.
+              I'm a multifaceted professional with over 15 years of experience spanning web development, 
+              data annotation, and digital/traditional art. My expertise includes enhancing AI model 
+              accuracy through meticulous data labeling and automating workflows with Python.
             </p>
           </RevealOnScroll>
           <RevealOnScroll>
@@ -321,44 +330,77 @@ export default function HomePage({ posts }: HomePageProps) {
                 window.location.href = '/about';
               }}
             >
-              Learn more about us
+              Learn more about me
             </AnimatedButton>
           </RevealOnScroll>
         </div>
         
         <div className="md:w-1/2">
-          <AnimatedCard hoverEffect="scale" className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-            <div className="w-3/4 h-3/4 relative">
-              {/* Abstract geometric pattern */}
-              <motion.div 
-                className="absolute top-0 left-0 w-full h-full"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 1 }}
-                viewport={{ once: true }}
-              >
-                <motion.div 
-                  className="absolute top-1/4 left-1/4 w-1/2 h-1/2 border-2 border-gray-800 dark:border-gray-200 rounded-full"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{ delay: 0.2, duration: 0.8 }}
+          <AnimatedCard hoverEffect="scale" className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg p-6">
+            <div className="w-full h-full flex flex-col justify-center">
+              <h3 className="text-xl font-semibold mb-4">Professional Skills</h3>
+              <ul className="space-y-2">
+                <motion.li 
+                  className="flex items-center"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1, duration: 0.5 }}
                   viewport={{ once: true }}
-                />
-                <motion.div 
-                  className="absolute top-1/3 left-1/3 w-1/3 h-1/3 bg-gray-800 dark:bg-gray-200"
-                  initial={{ scale: 0, rotate: -45 }}
-                  whileInView={{ scale: 1, rotate: 0 }}
-                  transition={{ delay: 0.4, duration: 0.8 }}
+                >
+                  <span className="w-2 h-2 bg-gray-800 dark:bg-gray-200 rounded-full mr-2"></span>
+                  <span>Web Development</span>
+                </motion.li>
+                <motion.li 
+                  className="flex items-center"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
                   viewport={{ once: true }}
-                />
-                <motion.div 
-                  className="absolute top-0 left-0 w-full h-full border border-gray-800 dark:border-gray-200"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: 0.6, duration: 0.8 }}
+                >
+                  <span className="w-2 h-2 bg-gray-800 dark:bg-gray-200 rounded-full mr-2"></span>
+                  <span>Data Annotation</span>
+                </motion.li>
+                <motion.li 
+                  className="flex items-center"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
                   viewport={{ once: true }}
-                />
-              </motion.div>
+                >
+                  <span className="w-2 h-2 bg-gray-800 dark:bg-gray-200 rounded-full mr-2"></span>
+                  <span>Python</span>
+                </motion.li>
+                <motion.li 
+                  className="flex items-center"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4, duration: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <span className="w-2 h-2 bg-gray-800 dark:bg-gray-200 rounded-full mr-2"></span>
+                  <span>JavaScript</span>
+                </motion.li>
+                <motion.li 
+                  className="flex items-center"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <span className="w-2 h-2 bg-gray-800 dark:bg-gray-200 rounded-full mr-2"></span>
+                  <span>Adobe Creative Suite</span>
+                </motion.li>
+                <motion.li 
+                  className="flex items-center"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6, duration: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <span className="w-2 h-2 bg-gray-800 dark:bg-gray-200 rounded-full mr-2"></span>
+                  <span>Google Analytics</span>
+                </motion.li>
+              </ul>
             </div>
           </AnimatedCard>
         </div>

@@ -120,37 +120,83 @@ function parseMarkdownContent(content: string): ContentItem[] {
   let currentList: string[] = [];
   let isOrderedList = false;
   let inList = false;
+  let currentParagraph = '';
   
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
     
-    // Skip empty lines
-    if (!line) continue;
+    // Handle empty lines - they can separate paragraphs
+    if (!line) {
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: processInlineFormatting(currentParagraph)
+        });
+        currentParagraph = '';
+      }
+      continue;
+    }
     
     // Headings
     if (line.startsWith('# ')) {
       // H1 is usually the title, so we skip it
       continue;
     } else if (line.startsWith('## ')) {
+      // If we have a paragraph in progress, add it first
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: processInlineFormatting(currentParagraph)
+        });
+        currentParagraph = '';
+      }
+      
       parsedContent.push({
         type: 'heading',
-        content: line.substring(3)
+        content: processInlineFormatting(line.substring(3))
       });
     } else if (line.startsWith('### ')) {
+      // If we have a paragraph in progress, add it first
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: processInlineFormatting(currentParagraph)
+        });
+        currentParagraph = '';
+      }
+      
       parsedContent.push({
         type: 'subheading',
-        content: line.substring(4)
+        content: processInlineFormatting(line.substring(4))
       });
     }
     // Blockquotes
     else if (line.startsWith('> ')) {
+      // If we have a paragraph in progress, add it first
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: processInlineFormatting(currentParagraph)
+        });
+        currentParagraph = '';
+      }
+      
       parsedContent.push({
         type: 'blockquote',
-        content: line.substring(2)
+        content: processInlineFormatting(line.substring(2))
       });
     }
     // Code blocks
     else if (line.startsWith('```')) {
+      // If we have a paragraph in progress, add it first
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: processInlineFormatting(currentParagraph)
+        });
+        currentParagraph = '';
+      }
+      
       const language = line.substring(3).trim();
       let codeContent = '';
       i++;
@@ -168,6 +214,15 @@ function parseMarkdownContent(content: string): ContentItem[] {
     }
     // Ordered lists
     else if (/^\d+\.\s/.test(line)) {
+      // If we have a paragraph in progress, add it first
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: processInlineFormatting(currentParagraph)
+        });
+        currentParagraph = '';
+      }
+      
       if (!inList || !isOrderedList) {
         // Start a new ordered list
         if (inList) {
@@ -176,7 +231,7 @@ function parseMarkdownContent(content: string): ContentItem[] {
             type: 'list',
             content: currentList.join(', '), // Join items for content field
             ordered: isOrderedList,
-            items: [...currentList]
+            items: currentList.map(item => processInlineFormatting(item))
           });
           currentList = [];
         }
@@ -187,6 +242,15 @@ function parseMarkdownContent(content: string): ContentItem[] {
     }
     // Unordered lists
     else if (/^[\*\-]\s/.test(line)) {
+      // If we have a paragraph in progress, add it first
+      if (currentParagraph) {
+        parsedContent.push({
+          type: 'paragraph',
+          content: processInlineFormatting(currentParagraph)
+        });
+        currentParagraph = '';
+      }
+      
       if (!inList || isOrderedList) {
         // Start a new unordered list
         if (inList) {
@@ -195,7 +259,7 @@ function parseMarkdownContent(content: string): ContentItem[] {
             type: 'list',
             content: currentList.join(', '), // Join items for content field
             ordered: isOrderedList,
-            items: [...currentList]
+            items: currentList.map(item => processInlineFormatting(item))
           });
           currentList = [];
         }
@@ -204,7 +268,7 @@ function parseMarkdownContent(content: string): ContentItem[] {
       }
       currentList.push(line.replace(/^[\*\-]\s/, ''));
     }
-    // Regular paragraphs
+    // Regular paragraphs - accumulate lines for a single paragraph
     else {
       if (inList) {
         // End the current list
@@ -212,16 +276,18 @@ function parseMarkdownContent(content: string): ContentItem[] {
           type: 'list',
           content: currentList.join(', '), // Join items for content field
           ordered: isOrderedList,
-          items: [...currentList]
+          items: currentList.map(item => processInlineFormatting(item))
         });
         currentList = [];
         inList = false;
       }
       
-      parsedContent.push({
-        type: 'paragraph',
-        content: line
-      });
+      // If we already have content in the paragraph, add a space
+      if (currentParagraph) {
+        currentParagraph += ' ' + line;
+      } else {
+        currentParagraph = line;
+      }
     }
   }
   
@@ -231,11 +297,39 @@ function parseMarkdownContent(content: string): ContentItem[] {
       type: 'list',
       content: currentList.join(', '), // Join items for content field
       ordered: isOrderedList,
-      items: [...currentList]
+      items: currentList.map(item => processInlineFormatting(item))
+    });
+  }
+  
+  // Add any remaining paragraph
+  if (currentParagraph) {
+    parsedContent.push({
+      type: 'paragraph',
+      content: processInlineFormatting(currentParagraph)
     });
   }
   
   return parsedContent;
+}
+
+// Function to process inline markdown formatting
+function processInlineFormatting(text: string): string {
+  // Bold: **text** or __text__
+  text = text.replace(/\*\*(.*?)\*\*|__(.*?)__/g, '<strong>$1$2</strong>');
+  
+  // Italic: *text* or _text_
+  text = text.replace(/\*(.*?)\*|_(.*?)_/g, '<em>$1$2</em>');
+  
+  // Strikethrough: ~~text~~
+  text = text.replace(/~~(.*?)~~/g, '<del>$1</del>');
+  
+  // Inline code: `code`
+  text = text.replace(/`(.*?)`/g, '<code>$1</code>');
+  
+  // Links: [text](url)
+  text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
+  
+  return text;
 }
 
 // Function to get all posts
@@ -249,63 +343,104 @@ export function getAllPosts(): Post[] {
     !filename.startsWith('_template')
   );
   
+  // Log the number of posts found for debugging
+  console.log(`Found ${postFilenames.length} posts out of ${filenames.length} files in _posts directory`);
+  
   const allPosts = postFilenames.map((filename, index) => {
-    // Get the file path
-    const filePath = path.join(postsDirectory, filename);
+    try {
+      // Get the file path
+      const filePath = path.join(postsDirectory, filename);
+      
+      // Read the file content
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      
+      // Parse the frontmatter
+      const { data, content } = parseFrontmatter(fileContent);
+      
+      // Generate a slug from the filename
+      const slug = filename.replace(/\.md$/, '');
+      let id;
+      
+      // Handle filenames with date prefixes more safely
+      const dateMatch = slug.match(/^(\d{4}-\d{2}-\d{2})/);
+      if (dateMatch && slug.startsWith(dateMatch[0])) {
+        id = slug.substring(dateMatch[0].length + 1); // +1 for the hyphen
+      } else {
+        id = slug;
+      }
+      
+      // If id is empty (which could happen if the filename is just a date), use the full slug
+      if (!id || id.trim() === '') {
+        id = slug;
+      }
     
-    // Read the file content
-    const fileContent = fs.readFileSync(filePath, 'utf8');
-    
-    // Parse the frontmatter
-    const { data, content } = parseFrontmatter(fileContent);
-    
-    // Generate a slug from the filename
-    const slug = filename.replace(/\.md$/, '');
-    const id = slug.substring(0, 10) === slug.match(/^\d{4}-\d{2}-\d{2}/)![0] 
-      ? slug.substring(11) // Remove date prefix if it exists
-      : slug;
-    
-    // Parse the content
-    const parsedContent = parseMarkdownContent(content);
-    
-    // Extract categories and tags
-    const categories = data.categories || [];
-    const tags = data.tags || [];
-    
-    // Flatten categories and tags into a single array
-    const allTags = Array.isArray(categories) 
-      ? [...categories, ...(Array.isArray(tags) ? tags : [])]
-      : Array.isArray(tags) 
-        ? tags 
-        : [];
-    
-    // Create the post object
-    const post: Post = {
-      id,
-      title: data.title || 'Untitled Post',
-      date: data.date ? new Date(data.date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      }) : new Date().toLocaleDateString(),
-      readingTime: estimateReadingTime(content),
-      excerpt: data.description || content.substring(0, 150) + '...',
-      author: {
-        name: data.author || 'Anonymous',
-        avatar: '/images/avatar-default.jpg',
-        bio: data.authorBio || 'Author'
-      },
-      featuredImage: {
-        src: data.image || '/images/blog-1.jpg',
-        alt: data.title || 'Blog post image',
-        caption: data.imageCaption
-      },
-      content: parsedContent,
-      tags: allTags,
-      relatedPosts: []
-    };
-    
-    return post;
+      // Parse the content
+      const parsedContent = parseMarkdownContent(content);
+      
+      // Extract categories and tags
+      const categories = data.categories || [];
+      const tags = data.tags || [];
+      
+      // Flatten categories and tags into a single array
+      const allTags = Array.isArray(categories) 
+        ? [...categories, ...(Array.isArray(tags) ? tags : [])]
+        : Array.isArray(tags) 
+          ? tags 
+          : [];
+      
+      // Create the post object
+      const post: Post = {
+        id,
+        title: data.title || 'Untitled Post',
+        date: data.date ? new Date(data.date).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }) : new Date().toLocaleDateString(),
+        readingTime: estimateReadingTime(content),
+        excerpt: data.description || content.substring(0, 150) + '...',
+        author: {
+          name: data.author || 'Anonymous',
+          avatar: '/images/avatar-default.jpg',
+          bio: data.authorBio || 'Author'
+        },
+        featuredImage: {
+          src: data.image || '/images/blog-1.jpg',
+          alt: data.title || 'Blog post image',
+          caption: data.imageCaption
+        },
+        content: parsedContent,
+        tags: allTags,
+        relatedPosts: []
+      };
+      
+      return post;
+    } catch (error) {
+      console.error(`Error processing post ${filename}:`, error);
+      // Return a minimal post object for files that can't be processed
+      return {
+        id: filename.replace(/\.md$/, ''),
+        title: `Error loading: ${filename}`,
+        date: new Date().toLocaleDateString(),
+        readingTime: '1 min',
+        excerpt: 'This post could not be loaded properly.',
+        author: {
+          name: 'System',
+          avatar: '/images/avatar-default.jpg',
+          bio: 'System'
+        },
+        featuredImage: {
+          src: '/images/blog-1.jpg',
+          alt: 'Error',
+        },
+        content: [{
+          type: 'paragraph' as const,
+          content: 'This post could not be loaded properly.'
+        }],
+        tags: ['error'],
+        relatedPosts: []
+      } as Post;
+    }
   });
   
   // Sort posts by date (newest first)
