@@ -3,14 +3,11 @@ export const metadata = {
   description: 'Content management for the Black & White Blog',
 };
 
+// Use a simple div wrapper instead of html/body tags
 export default function StudioLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
+  return <div className="sanity-studio">{children}</div>;
 }

@@ -2,10 +2,6 @@ import { defineConfig } from 'sanity';
 import { deskTool } from 'sanity/desk';
 import { visionTool } from '@sanity/vision';
 import { schemaTypes } from './schemas';
-import { dashboardTool } from '@sanity/dashboard';
-import { netlifyWidget } from 'sanity-plugin-dashboard-widget-netlify';
-import { media } from 'sanity-plugin-media';
-import ContentMetricsWidget from './dashboard/ContentMetrics';
 
 // Define the actions that should be available for singleton documents
 const singletonActions = ['publish', 'discardChanges', 'restore'];
@@ -54,23 +50,6 @@ export default defineConfig({
           ]),
     }),
     visionTool(),
-    dashboardTool({
-      widgets: [
-        ContentMetricsWidget(),
-        netlifyWidget({
-          title: 'Netlify Deployments',
-          sites: [
-            {
-              title: 'Blog Website',
-              apiId: process.env.NETLIFY_SITE_ID || 'your-netlify-site-id',
-              buildHookId: process.env.NETLIFY_WEBHOOK_ID || 'your-netlify-webhook-id',
-              name: 'Black & White Blog',
-            },
-          ],
-        }),
-      ],
-    }),
-    media(),
   ],
 
   schema: {
