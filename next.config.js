@@ -19,6 +19,25 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Configure dynamic routes
+  experimental: {
+    // This helps with client-side components in App Router
+    appDir: true,
+  },
+  // Ensure search page is treated as dynamic
+  async headers() {
+    return [
+      {
+        source: '/search',
+        headers: [
+          {
+            key: 'x-nextjs-page-type',
+            value: 'dynamic',
+          },
+        ],
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig
