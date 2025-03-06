@@ -8,6 +8,9 @@ import { AnimatedLink, AnimatedCard } from '@/components/MicroInteractions';
 import { Spinner } from '@/components/LoadingStates';
 import SearchBar from '@/components/SearchBar';
 
+// Add dynamic export configuration
+export const dynamic = 'force-dynamic';
+
 interface SearchResult {
   id: string;
   title: string;
@@ -24,8 +27,15 @@ export default function SearchPage() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // Handle client-side mounting
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   useEffect(() => {
+    if (!isMounted) return;
     if (!query && !tag) return;
     
     const performSearch = async () => {
@@ -33,11 +43,10 @@ export default function SearchPage() {
       setError(null);
       
       try {
-        const searchUrl = new URL('/.netlify/functions/search', window.location.origin);
-        if (query) searchUrl.searchParams.append('q', query);
-        if (tag) searchUrl.searchParams.append('tag', tag);
+        // Use relative URL to avoid window.location issues during SSR
+        const searchUrl = `/.netlify/functions/search${query ? `?q=${encodeURIComponent(query)}` : ''}${tag ? `${query ? '&' : '?'}tag=${encodeURIComponent(tag)}` : ''}`;
         
-        const response = await fetch(searchUrl.toString());
+        const response = await fetch(searchUrl);
         const data = await response.json();
         
         if (!response.ok) {
@@ -55,7 +64,18 @@ export default function SearchPage() {
     };
     
     performSearch();
-  }, [query, tag]);
+  }, [query, tag, isMounted]);
+  
+  // Show a loading state until client-side code is ready
+  if (!isMounted) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <div className="flex justify-center items-center py-12">
+          <Spinner size="lg" />
+        </div>
+      </div>
+    );
+  }
   
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
